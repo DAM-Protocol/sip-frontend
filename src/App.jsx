@@ -7,7 +7,9 @@ const App = () => {
 
 	return !isAuthenticated ? (
 		<div>
-			<button onClick={() => authenticate()}>Authenticate</button>
+			<button onClick={() => authenticate({ provider: "walletconnect" })}>
+				Authenticate
+			</button>
 		</div>
 	) : (
 		<div>
