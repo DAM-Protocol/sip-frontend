@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./styles/index.css";
 import App from "./App.jsx";
+import { ThemeProvider } from "styled-components";
 import reportWebVitals from "./reportWebVitals";
 import { MoralisProvider } from "react-moralis";
+import GlobalStyle from "./theme/globalStyles";
+import { darkTheme } from "./theme/theme";
 
 ReactDOM.render(
 	<MoralisProvider
 		appId="zA1uN8A3fRR8owsiFDr2sjULWgBHpvofSpKiOJRi"
 		serverUrl="https://6jshdrz5hhij.usemoralis.com:2053/server">
 		<React.StrictMode>
-			<App />
+			<ThemeProvider theme={darkTheme}>
+				<GlobalStyle />
+				<App />
+			</ThemeProvider>
 		</React.StrictMode>
 	</MoralisProvider>,
 	document.getElementById("root")
