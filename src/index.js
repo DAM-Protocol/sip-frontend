@@ -6,18 +6,21 @@ import reportWebVitals from "./reportWebVitals";
 import { MoralisProvider } from "react-moralis";
 import GlobalStyle from "./theme/globalStyles";
 import { darkTheme } from "./theme/theme";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-	<MoralisProvider
-		appId="zA1uN8A3fRR8owsiFDr2sjULWgBHpvofSpKiOJRi"
-		serverUrl="https://6jshdrz5hhij.usemoralis.com:2053/server">
-		<React.StrictMode>
-			<ThemeProvider theme={darkTheme}>
-				<GlobalStyle />
-				<App />
-			</ThemeProvider>
-		</React.StrictMode>
-	</MoralisProvider>,
+	<React.StrictMode>
+		<MoralisProvider
+			appId="zA1uN8A3fRR8owsiFDr2sjULWgBHpvofSpKiOJRi"
+			serverUrl="https://6jshdrz5hhij.usemoralis.com:2053/server">
+			<BrowserRouter>
+				<ThemeProvider theme={darkTheme}>
+					<GlobalStyle />
+					<App />
+				</ThemeProvider>
+			</BrowserRouter>
+		</MoralisProvider>
+	</React.StrictMode>,
 	document.getElementById("root")
 );
 

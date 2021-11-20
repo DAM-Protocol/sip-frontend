@@ -1,21 +1,29 @@
-import { useMoralis } from "react-moralis";
+// Dependancies
+import { Routes, Route, Navigate } from "react-router";
+
+// Components
+import Home from "./components/Home";
+import Navbar from "./components/Navbar";
+import NotFound from "./components/NotFound";
 
 const App = () => {
-	console.log(process.env.REACT_APP_MORALIS_APPID);
+	return (
+		<>
+			<Navbar />
+			<main>
+				<Routes>
+					{/* Base Route */}
+					<Route path="/">
+						{/* Route `/` */}
+						<Route path="" exact element={<Home />} />
 
-	const { authenticate, isAuthenticated, user } = useMoralis();
-
-	return !isAuthenticated ? (
-		<div>
-			<button onClick={() => authenticate({ provider: "walletconnect" })}>
-				Authenticate
-			</button>
-		</div>
-	) : (
-		<div>
-			<h1>Welcome {user.get("username")}</h1>
-			<div className="App">🚀 SIP Frontend </div>
-		</div>
+						<Route exact path="404" element={<NotFound />} />
+						{/* No Matching Route -> Redirect */}
+						<Route path="*" element={<Navigate to="/404" />} />
+					</Route>
+				</Routes>
+			</main>
+		</>
 	);
 };
 
