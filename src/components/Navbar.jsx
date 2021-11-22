@@ -1,16 +1,27 @@
 import { useMoralis } from "react-moralis";
-
+import Button from "./Button.styles";
+import NavigationBar from "./Navbar.style";
 const Navbar = () => {
 	const { authenticate, isAuthenticated, logout } = useMoralis();
 
 	return (
-		<nav>
+		<NavigationBar>
+			<div className="logo">
+				any
+				<span className="yellow">Stream</span>
+				<span className="red">.</span>
+			</div>
 			{!isAuthenticated ? (
-				<button onClick={() => authenticate({})}>Authenticate</button>
+				<Button
+					onClick={() =>
+						authenticate({ provider: "walletconnect", chainId: 137 })
+					}>
+					Connect Wallet
+				</Button>
 			) : (
-				<button onClick={() => logout()}>Logout</button>
+				<Button onClick={() => logout()}>LogOut</Button>
 			)}
-		</nav>
+		</NavigationBar>
 	);
 };
 
