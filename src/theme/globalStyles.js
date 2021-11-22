@@ -11,6 +11,7 @@ html {
     margin :0;
     padding: 0;
     font-family: ${(props) => props.theme.font.family.primary};
+    font-size: 16px;
     
     /* @media (max-width: ${(props) => props.theme.breakpoints.tablet}) {
       font-size: 80%;
