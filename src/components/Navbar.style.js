@@ -11,7 +11,7 @@ const NavigationBar = styled.nav`
 	background: ${(props) => props.theme.colors.graybackground};
 
 	.logo {
-		font-size: 1.75rem;
+		font-size: 1.5rem;
 		.yellow {
 			font-size: 1.5rem;
 			color: ${(props) => props.theme.colors.primary.gold};
