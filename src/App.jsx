@@ -2,13 +2,16 @@
 import { Routes, Route, Navigate } from "react-router";
 
 // Components
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import NotFound from "./components/NotFound";
+import NotFound from "./pages/NotFound";
+
+// Styles
+import AppStyled from "./App.styles";
 
 const App = () => {
 	return (
-		<>
+		<AppStyled>
 			<Navbar />
 			<main>
 				<Routes>
@@ -23,7 +26,7 @@ const App = () => {
 					</Route>
 				</Routes>
 			</main>
-		</>
+		</AppStyled>
 	);
 };
 
