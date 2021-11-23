@@ -58,6 +58,7 @@ export const darkTheme = {
 		background: "#101427",
 
 		highlight: "#444451",
+		alert: "#AE1317",
 
 		navbar: "#090909",
 		text: "#fff",
