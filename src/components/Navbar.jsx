@@ -15,12 +15,26 @@ const Navbar = () => {
 					<span className="red">.</span>
 				</div>
 			</Link>
+			<div className="links">
+				<Link className="link" to="/about">
+					About
+				</Link>
+				<Link className="link" to="/docs">
+					Docs
+				</Link>
+				<Link className="link" to="/invest">
+					Invest
+				</Link>
+			</div>
 			{!isAuthenticated ? (
-				<Button
-					stroke
-					onClick={() =>
-						authenticate({ provider: "walletconnect", chainId: 137 })
-					}>
+				<Button stroke>Matic</Button>
+			) : (
+				<Button stroke onClick={() => logout()}>
+					LogOut
+				</Button>
+			)}
+			{!isAuthenticated ? (
+				<Button stroke onClick={() => authenticate()}>
 					Connect Wallet
 				</Button>
 			) : (
