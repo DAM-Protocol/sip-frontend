@@ -1,17 +1,18 @@
 // Dependancies
 import { Routes, Route, Navigate } from "react-router";
+import { lazy, Suspense } from "react";
 
 // Components
-import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import PageLoader from "./components/PageLoader";
+import DhedgeRoutes from "./Routes/DhedgeRoutes";
+import DcaRoutes from "./Routes/DcaRoutes";
 
 // Styles
 import AppStyled from "./App.styles";
-import { lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
 
 // Lazy Imports
+const Home = lazy(() => import("./pages/Home"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Components = lazy(() => import("./pages/Components"));
 
@@ -33,6 +34,11 @@ const App = () => {
 								</Suspense>
 							}
 						/>
+
+						<Route path="dca" exact element={<DcaRoutes />} />
+						<Route path="dhedge" exact element={<DhedgeRoutes />} />
+
+						{/* Component Showcase -- For Dev purposes only */}
 						<Route
 							path="components"
 							exact
