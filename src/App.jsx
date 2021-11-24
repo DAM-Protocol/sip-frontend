@@ -49,7 +49,15 @@ const App = () => {
 							}
 						/>
 
-						<Route exact path="404" element={<NotFound />} />
+						<Route
+							exact
+							path="404"
+							element={
+								<Suspense fallback={<PageLoader />}>
+									<NotFound />
+								</Suspense>
+							}
+						/>
 						{/* No Matching Route -> Redirect */}
 						<Route path="*" element={<Navigate to="/404" />} />
 					</Route>
