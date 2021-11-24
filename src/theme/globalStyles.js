@@ -22,7 +22,7 @@ html {
   }
 
   body {
-    background: ${(props) => props.theme.colors.background};
+    background: url("./assets/bg-tile-2.png");
     color: ${(props) => props.theme.colors.text};
     height: 100vh;
     overflow-y: scroll;

@@ -27,7 +27,7 @@ const Navbar = () => {
 				</Link>
 			</div>
 			{!isAuthenticated ? (
-				<Button stroke>Matic</Button>
+				<Button stroke>Polygon</Button>
 			) : (
 				<Button stroke onClick={() => logout()}>
 					LogOut
