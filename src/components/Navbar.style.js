@@ -2,7 +2,7 @@ import styled, { withTheme } from "styled-components";
 
 const NavigationBar = styled.nav`
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 
 	width: 100%;
@@ -19,6 +19,13 @@ const NavigationBar = styled.nav`
 		.red {
 			font-size: 1.5rem;
 			color: ${(props) => props.theme.colors.primary.red};
+		}
+	}
+	.links {
+		display: flex;
+		margin: auto;
+		.link {
+			margin: 0 1rem;
 		}
 	}
 `;
