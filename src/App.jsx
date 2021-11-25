@@ -3,8 +3,8 @@ import { Routes, Route, Navigate } from "react-router";
 import { lazy, Suspense } from "react";
 
 // Components
-import Navbar from "./components/Navbar";
-import PageLoader from "./components/PageLoader";
+import Navbar from "./components/Navbar/Navbar";
+import Loader from "./components/Loader/Loader";
 import DhedgeRoutes from "./Routes/DhedgeRoutes";
 import DcaRoutes from "./Routes/DcaRoutes";
 
@@ -29,7 +29,7 @@ const App = () => {
 							path=""
 							exact
 							element={
-								<Suspense fallback={<PageLoader />}>
+								<Suspense fallback={<Loader />}>
 									<Home />
 								</Suspense>
 							}
@@ -43,7 +43,7 @@ const App = () => {
 							path="components"
 							exact
 							element={
-								<Suspense fallback={<PageLoader />}>
+								<Suspense fallback={<Loader />}>
 									<Components />
 								</Suspense>
 							}

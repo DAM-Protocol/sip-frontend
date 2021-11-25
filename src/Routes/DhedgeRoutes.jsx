@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import PageLoader from "../components/PageLoader";
+import Loader from "../components/Loader/Loader";
 
 const DhedgeInterface = lazy(() => import("../pages/DhedgeInterface"));
 const DhedgeDashboard = lazy(() => import("../pages/DhedgeDashboard"));
@@ -12,7 +12,7 @@ const DhedgeRoutes = () => {
 				exact
 				path="interface"
 				element={
-					<Suspense fallback={<PageLoader />}>
+					<Suspense fallback={<Loader />}>
 						<DhedgeInterface />
 					</Suspense>
 				}
@@ -21,7 +21,7 @@ const DhedgeRoutes = () => {
 				exact
 				path="dashboard"
 				element={
-					<Suspense fallback={<PageLoader />}>
+					<Suspense fallback={<Loader />}>
 						<DhedgeDashboard />
 					</Suspense>
 				}

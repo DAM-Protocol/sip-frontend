@@ -1,6 +1,6 @@
 import { useMoralis } from "react-moralis";
 import { Link } from "react-router-dom";
-import Button from "./Button.styles";
+import Button from "../Button/Button.styles";
 import NavigationBar from "./Navbar.style";
 
 const Navbar = () => {

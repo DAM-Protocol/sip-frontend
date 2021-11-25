@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import PageLoader from "../components/PageLoader";
+import Loader from "../components/Loader/Loader";
 
 const DcaInterface = lazy(() => import("../pages/DcaInterface"));
 const DcaDashboard = lazy(() => import("../pages/DcaDashboard"));
@@ -12,7 +12,7 @@ const DcaRoutes = () => {
 				exact
 				path="interface"
 				element={
-					<Suspense fallback={<PageLoader />}>
+					<Suspense fallback={<Loader />}>
 						<DcaInterface />
 					</Suspense>
 				}
@@ -21,7 +21,7 @@ const DcaRoutes = () => {
 				exact
 				path="dashboard"
 				element={
-					<Suspense fallback={<PageLoader />}>
+					<Suspense fallback={<Loader />}>
 						<DcaDashboard />
 					</Suspense>
 				}

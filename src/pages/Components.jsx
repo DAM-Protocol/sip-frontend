@@ -1,5 +1,6 @@
-import Button from "../components/Button.styles";
-import Navbar from "../components/Navbar";
+
+import Button from "../components/Button/Button.styles";
+import Navbar from "../components/Navbar/Navbar";
 import ComponentsStyled from "./Components.styles";
 
 const Components = () => {

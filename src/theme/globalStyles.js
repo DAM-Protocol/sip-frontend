@@ -24,8 +24,8 @@ html {
   body {
     background: ${(props) => props.theme.colors.background};
     color: ${(props) => props.theme.colors.text};
-    height: 100vh;
-    overflow-y: scroll;
+    /* height: 100vh;
+    overflow-y: scroll; */
   }
 
   h1,h2,h3,h4{
@@ -51,6 +51,8 @@ html {
     color: ${(props) => props.theme.colors.text};
     text-decoration: none;
   }
+
+
 
 `;
 
