@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "../components/Loader/Loader";
 
@@ -7,7 +7,7 @@ const DcaDashboard = lazy(() => import("../pages/DcaDashboard"));
 
 const DcaRoutes = () => {
 	return (
-		<Route path="/">
+		<Routes>
 			<Route
 				exact
 				path="interface"
@@ -26,7 +26,8 @@ const DcaRoutes = () => {
 					</Suspense>
 				}
 			/>
-		</Route>
+			<Route path="*" element={"DCA Information & FAQ"} />
+		</Routes>
 	);
 };
 

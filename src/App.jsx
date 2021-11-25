@@ -1,5 +1,5 @@
 // Dependancies
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route } from "react-router";
 import { lazy, Suspense } from "react";
 
 // Components
@@ -26,8 +26,7 @@ const App = () => {
 					<Route path="/">
 						{/* Route `/` */}
 						<Route
-							path=""
-							exact
+							index
 							element={
 								<Suspense fallback={<Loader />}>
 									<Home />
@@ -35,8 +34,8 @@ const App = () => {
 							}
 						/>
 
-						<Route path="dca" exact element={<DcaRoutes />} />
-						<Route path="dhedge" exact element={<DhedgeRoutes />} />
+						<Route path="dca/*" exact element={<DcaRoutes />} />
+						<Route path="dhedge/*" exact element={<DhedgeRoutes />} />
 
 						{/* Component Showcase -- For Dev purposes only */}
 						<Route
@@ -51,15 +50,13 @@ const App = () => {
 
 						<Route
 							exact
-							path="404"
+							path="*"
 							element={
-								<Suspense fallback={<PageLoader />}>
+								<Suspense fallback={<Loader />}>
 									<NotFound />
 								</Suspense>
 							}
 						/>
-						{/* No Matching Route -> Redirect */}
-						<Route path="*" element={<Navigate to="/404" />} />
 					</Route>
 				</Routes>
 			</main>
