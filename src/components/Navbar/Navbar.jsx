@@ -22,8 +22,11 @@ const Navbar = () => {
 				<Link className="link" to="/docs">
 					Docs
 				</Link>
-				<Link className="link" to="/invest">
-					Invest
+				<Link className="link" to="/dhedge">
+					dHEDHE
+				</Link>
+				<Link className="link" to="/dca">
+					DCA
 				</Link>
 			</div>
 			{!isAuthenticated ? (
