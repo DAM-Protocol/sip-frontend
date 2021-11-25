@@ -1,4 +1,3 @@
-
 import Button from "../components/Button/Button.styles";
 import Navbar from "../components/Navbar/Navbar";
 import ComponentsStyled from "./Components.styles";
@@ -17,16 +16,17 @@ const Components = () => {
 			</div>
 			<hr />
 
-			<div className="molecule level">
+			{/* <div className="molecule level">
 				<h2>Molecules</h2>
 
 				<div className="component"></div>
 			</div>
-			<hr />
+			<hr /> */}
 			<div className="atom level">
 				<h3>Atoms</h3>
 				<Button stroke>Button</Button>
 				<Button filled>Button Filled</Button>
+				<Button light>Button Light</Button>
 				<Button alert>Button Alert</Button>
 			</div>
 			<hr />
