@@ -28,6 +28,9 @@ const NavigationBar = styled.nav`
 			margin: 0 1rem;
 		}
 	}
+	button {
+		font-size: unset;
+	}
 `;
 
 export default withTheme(NavigationBar);

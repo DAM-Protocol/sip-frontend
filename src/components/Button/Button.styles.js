@@ -3,12 +3,14 @@ import styled from "styled-components";
 const Button = styled.button`
 	font-size: 1.2rem;
 	padding: 0.35rem 1.75rem;
+	margin: 0 0.5rem;
 	cursor: pointer;
 	border-radius: 50px;
 	box-sizing: border-box;
 	background: ${(props) =>
 		(props.filled && props.theme.colors.primary.gold) ||
 		(props.alert && `${props.theme.colors.alert}dd`) ||
+		(props.light && `${props.theme.colors.primary.gold}75`) ||
 		"none"};
 
 	border: ${(props) =>
@@ -26,11 +28,9 @@ const Button = styled.button`
 		background: ${(props) =>
 			(props.filled && `${props.theme.colors.primary.gold}ce`) ||
 			(props.alert && `${props.theme.colors.alert}75`) ||
+			(props.light && `${props.theme.colors.primary.gold}aa`) ||
 			`${props.theme.colors.primary.gold}25`};
 	}
 `;
-
-
-
 
 export default Button;
