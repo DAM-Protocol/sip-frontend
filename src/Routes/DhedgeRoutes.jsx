@@ -2,8 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "../components/Loader/Loader";
 
-const DhedgeInterface = lazy(() => import("../pages/DhedgeInterface"));
-const DhedgeDashboard = lazy(() => import("../pages/DhedgeDashboard"));
+const DhedgeInterface = lazy(() => import("../pages/DHEDGE/Interface"));
+const DhedgeDashboard = lazy(() => import("../pages/DHEDGE/Dashboard"));
+const Pool = lazy(() => import("../pages/DHEDGE/Pool"));
 
 const DhedgeRoutes = () => {
 	return (
@@ -19,6 +20,15 @@ const DhedgeRoutes = () => {
 			/>
 			<Route
 				exact
+				path="pool"
+				element={
+					<Suspense fallback={<Loader />}>
+						<Pool />
+					</Suspense>
+				}
+			/>
+			<Route
+				exact
 				path="dashboard"
 				element={
 					<Suspense fallback={<Loader />}>
@@ -26,7 +36,7 @@ const DhedgeRoutes = () => {
 					</Suspense>
 				}
 			/>
-			<Route path="*" element={"DCA Information & FAQ"} />
+			<Route path="*" element={"dHEDGE Information & FAQ"} />
 		</Routes>
 	);
 };
