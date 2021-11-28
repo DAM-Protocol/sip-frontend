@@ -61,6 +61,6 @@ export const darkTheme = {
 		alert: "#AE1317",
 
 		navbar: "#090909",
-		text: "#fff",
+		text: "#ffffff",
 	},
 };
