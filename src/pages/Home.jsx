@@ -21,6 +21,8 @@ const Home = () => {
 			<Link to="./dhedge/dashboard">Dhedge Dashboard</Link>
 			<br />
 			<Link to="./dhedge/interface">Dhedge Interface</Link>
+			<br />
+			<Link to="./components">All Components</Link>
 		</div>
 	);
 };
