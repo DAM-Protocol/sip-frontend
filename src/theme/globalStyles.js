@@ -1,17 +1,19 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-html {
-    height: 100%;
-}
+  html {
+      height: 100%;
+  }
 
+  :root{
+    font-size: 16px;
+  }
 
 * {
     box-sizing: border-box;
     margin :0;
     padding: 0;
     font-family: ${(props) => props.theme.font.family.primary};
-    font-size: 16px;
     
     /* @media (max-width: ${(props) => props.theme.breakpoints.tablet}) {
       font-size: 80%;
@@ -32,7 +34,7 @@ html {
     text-align: center;
   }
   h1{
-    font-size: 3rem;
+    font-size: 3rem !important;
     font-weight: 500;
   }
   h2{
@@ -60,6 +62,10 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .gold-highlight{
+    color: ${(props) => props.theme.colors.primary.gold};
   }
 
 
