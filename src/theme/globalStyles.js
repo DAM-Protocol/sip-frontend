@@ -67,6 +67,10 @@ const GlobalStyle = createGlobalStyle`
   .gold-highlight{
     color: ${(props) => props.theme.colors.primary.gold};
   }
+  
+  hr{
+    border-color: ${(props) => `${props.theme.colors.primary.gold}75`};
+  }
 
 
 `;
