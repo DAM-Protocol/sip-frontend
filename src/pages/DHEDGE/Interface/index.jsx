@@ -15,9 +15,13 @@ import TokenInput from "../../../components/Inputs/TokenInput";
 import RateInput from "../../../components/Inputs/RateInput";
 import { useSfSubgraphLazyQuery } from "../../../hooks/useSfSubgraphLazyQuery";
 
+import SuperfluidSDK from "@superfluid-finance/js-sdk";
+import BigNumber from "bignumber.js";
+
 const DhedgeInterface = () => {
 	const { contractAddress } = useParams();
 	const [poolAddress, setPoolAddress] = useState();
+	const [superFluid, setSuperFluid] = useState();
 
 	const { Moralis, isWeb3Enabled } = useMoralis();
 	const Web3Api = useMoralisWeb3Api();
@@ -31,11 +35,11 @@ const DhedgeInterface = () => {
 
 	const tokensLookup = useMemo(
 		() =>
-			tokenList?.reduce((obj, { address, ...rest }) => {
-				obj[address] = { ...rest };
+			superTokenList?.tokens?.reduce((obj, { id, ...rest }) => {
+				obj[id] = { ...rest };
 				return obj;
 			}, {}),
-		[tokenList]
+		[superTokenList]
 	);
 
 	const fetchAllData = useCallback(async () => {
@@ -73,6 +77,7 @@ const DhedgeInterface = () => {
 				}
 			}
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [Moralis, contractAddress]);
 
 	useEffect(() => {
@@ -80,26 +85,53 @@ const DhedgeInterface = () => {
 			if (!isWeb3Enabled) {
 				//
 				console.log("Enabling Web3");
-				await Moralis.enableWeb3();
+				await Moralis.enable();
+				const web3 = await Moralis.enableWeb3();
 				fetchAllData();
+
+				const sf = new SuperfluidSDK.Framework({
+					web3: web3,
+				});
+				await sf.initialize();
+				setSuperFluid(sf);
 			}
 		})();
-	}, [isWeb3Enabled]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		(async () => {
+			const formData = new FormData(event.currentTarget);
+			const fieldValues = Object.fromEntries(formData.entries());
 
-		const formData = new FormData(event.currentTarget);
-		const fieldValues = Object.fromEntries(formData.entries());
+			const formIsValid = Object.values(fieldValues).every((value) => !!value);
+			if (formIsValid) {
+				const web3 = await Moralis.enableWeb3();
 
-		const formIsValid = Object.values(fieldValues).every(
-			(value) => !getFieldError(value)
-		);
+				const amountPerMonth = new BigNumber(fieldValues["rate"]).multipliedBy(
+					new BigNumber(10).pow(
+						tokensLookup[fieldValues["Token-address-input"]].decimals
+					)
+				);
 
-		setWasSubmitted(true);
-		if (formIsValid) {
-			console.log(`Fast Form Submitted`, fieldValues);
-		}
+				const seconds = new BigNumber(2592000);
+
+				const ratePerSecond = amountPerMonth.dividedBy(seconds);
+				console.log(ratePerSecond.toFixed(0).toString());
+
+				const sfUser = superFluid.user({
+					address: web3.currentProvider.selectedAddress,
+					token: fieldValues["Token-address-input"],
+				});
+				await sfUser.flow({
+					recipient: contractAddress,
+					flowRate: ratePerSecond.toFixed(0).toString(),
+				});
+			}
+
+			setWasSubmitted(true);
+		})();
 	};
 
 	return (
@@ -152,20 +184,12 @@ const GET_SUPER_TOKEN_LIST = gql`
 			name
 			id
 			symbol
+			decimals
 			underlyingToken {
 				name
 			}
 		}
 	}
 `;
-// {
-//   "where": {
-//     "underlyingAddress_in": ["0x2791bca1f2de4661ed88a30c99a7a9449aa84174"]
-//   }
-// }
-
-function getFieldError(value) {
-	if (!value) return "field is required";
-}
 
 export default DhedgeInterface;

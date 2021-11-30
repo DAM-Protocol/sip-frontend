@@ -19,7 +19,7 @@ const TokenInput = ({
 	const [value, setValue] = useState("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [touched, setTouched] = useState(false);
-	const errorMessage = getFieldError(value?.id, tokenList);
+	const errorMessage = getFieldError(value?.id, tokensLookup);
 	const displayErrorMessage = (wasSubmitted || touched) && errorMessage;
 
 	const openModal = (e) => {
@@ -49,7 +49,7 @@ const TokenInput = ({
 				<input
 					id={`${name}-input`}
 					name={name}
-					value={value?.symbol}
+					value={value ? value?.symbol : ""}
 					readOnly
 					type="text"
 					onClick={openModal}
@@ -60,7 +60,7 @@ const TokenInput = ({
 				<input
 					hidden
 					name={`${name}-address-input`}
-					value={value?.id}
+					value={value ? value?.id : ""}
 					readOnly
 					type="text"
 					required
