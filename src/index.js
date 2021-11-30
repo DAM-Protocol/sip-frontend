@@ -11,8 +11,8 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.render(
 	<React.StrictMode>
 		<MoralisProvider
-			appId="zA1uN8A3fRR8owsiFDr2sjULWgBHpvofSpKiOJRi"
-			serverUrl="https://6jshdrz5hhij.usemoralis.com:2053/server">
+			appId="rFyOa0CRJzi1GGLIWHgSkTszbiq5BMAMEuwg2UV8"
+			serverUrl="https://mi0usx4zzfwt.usemoralis.com:2053/server">
 			<BrowserRouter>
 				<ThemeProvider theme={darkTheme}>
 					<GlobalStyle />
