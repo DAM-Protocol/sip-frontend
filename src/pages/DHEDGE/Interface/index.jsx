@@ -1,26 +1,30 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-import Button from "../../../components/Button/Button.styles";
-
-import { Interface, Form } from "./Interface.styles";
-
-import { useParams } from "react-router-dom";
-
-import { gql } from "@apollo/client";
-import { useDHedgeLazyQuery } from "../../../hooks/useDHedgeQuery";
-import dhedgeSipAbi from "../../../abi/dHedgeSipAbi";
-import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
-import { useMoralis, useMoralisWeb3Api } from "react-moralis";
-import InterfaceSidebar from "./InterfaceSidebar";
-import TokenInput from "../../../components/Inputs/TokenInput";
-import RateInput from "../../../components/Inputs/RateInput";
-import { useSfSubgraphLazyQuery } from "../../../hooks/useSfSubgraphLazyQuery";
-
 import SuperfluidSDK from "@superfluid-finance/js-sdk";
 import BigNumber from "bignumber.js";
+import { useParams } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { useMoralis, useMoralisWeb3Api } from "react-moralis";
+
+import Button from "../../../components/Button/Button.styles";
+import { Interface, Form } from "./Interface.styles";
+
+import { useDHedgeLazyQuery } from "../../../hooks/useDHedgeQuery";
+import { useSfSubgraphLazyQuery } from "../../../hooks/useSfSubgraphLazyQuery";
+
+import dhedgeSipAbi from "../../../abi/dHedgeSipAbi";
+import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
+
+import TokenInput from "../../../components/Inputs/TokenInput";
+import RateInput from "../../../components/Inputs/RateInput";
+import InterfaceSidebar from "./InterfaceSidebar";
 
 const DhedgeInterface = () => {
+	// dHEDGE SIP Contract Address
 	const { contractAddress } = useParams();
+	// dHEDGE Pool Address
 	const [poolAddress, setPoolAddress] = useState();
+
+	// SuperFluid SDK Object
 	const [superFluid, setSuperFluid] = useState();
 
 	const { Moralis, isWeb3Enabled } = useMoralis();
@@ -42,7 +46,9 @@ const DhedgeInterface = () => {
 		[superTokenList]
 	);
 
+	// Fetch required data
 	const fetchAllData = useCallback(async () => {
+		// Get dHEDGE Pool Address from dHEDGE SIP Contract
 		let _pooladdress = await Moralis.executeFunction({
 			contractAddress: contractAddress,
 			functionName: "getPoolLogic",
@@ -51,16 +57,20 @@ const DhedgeInterface = () => {
 		setPoolAddress(_pooladdress);
 
 		if (_pooladdress) {
+			// Get dHEDGE Pool Data
 			const { data: _data } = await getData({
 				variables: { address: _pooladdress },
 			});
 
 			if (_data && _data?.fund) {
+				// Get available tokens for dHEDGE Pool Deposits
 				const depositAssets = await Moralis.executeFunction({
 					contractAddress: _data.fund.managerLogicAddress,
 					functionName: "getDepositAssets",
 					abi: dhedgeCoreAbi,
 				});
+
+				// Get deposit tokens metadata
 				const options = { chain: "polygon", addresses: depositAssets };
 				const tokenMetadata = await Web3Api.token.getTokenMetadata(options);
 
@@ -71,6 +81,7 @@ const DhedgeInterface = () => {
 						(arr, token) => arr.concat(token["address"]),
 						[]
 					);
+					// Get super tokens for deposit tokens
 					getSuperTokenList({
 						variables: { where: { underlyingAddress_in: tokens } },
 					});
@@ -83,12 +94,12 @@ const DhedgeInterface = () => {
 	useEffect(() => {
 		(async () => {
 			if (!isWeb3Enabled) {
-				//
 				console.log("Enabling Web3");
 				await Moralis.enable();
 				const web3 = await Moralis.enableWeb3();
 				fetchAllData();
 
+				// Initialise Superfluid SDK
 				const sf = new SuperfluidSDK.Framework({
 					web3: web3,
 				});
@@ -120,6 +131,7 @@ const DhedgeInterface = () => {
 				const ratePerSecond = amountPerMonth.dividedBy(seconds);
 				console.log(ratePerSecond.toFixed(0).toString());
 
+				// Initiate Flow of super tokens
 				const sfUser = superFluid.user({
 					address: web3.currentProvider.selectedAddress,
 					token: fieldValues["Token-address-input"],
