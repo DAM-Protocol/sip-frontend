@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ComponentsStyled = styled.div`
+export const ComponentsStyled = styled.div`
 	display: flex;
 	flex-direction: column;
 	.level {
@@ -11,4 +11,7 @@ const ComponentsStyled = styled.div`
 	}
 `;
 
-export default ComponentsStyled;
+export const Heading = styled.h1`
+	font-size: ${(props) => props.theme.font.size.mainheading};
+	color: ${(props) => props.theme.colors.primary.pink};
+`;

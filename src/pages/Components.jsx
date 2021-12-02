@@ -1,11 +1,11 @@
 import Button from "../components/Button/Button.styles";
 import Navbar from "../components/Navbar/Navbar";
-import ComponentsStyled from "./Components.styles";
+import { ComponentsStyled, Heading } from "./Components.styles";
 
 const Components = () => {
 	return (
 		<ComponentsStyled>
-			<h1>All Components</h1>
+			<Heading>All Components</Heading>
 			<div className="organism level">
 				<h2>Organisms</h2>
 
