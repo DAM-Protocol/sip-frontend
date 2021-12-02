@@ -1,69 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { Link } from "react-router-dom";
+import { useMoralisDapp } from "../../context/MoralisDappProvider";
+import useChain from "../../hooks/useChain";
 import Button from "../Button/Button.styles";
 import NavigationBar from "./Navbar.style";
+import PolygonLogoSVG from "../../assets/polygon-logo.svg";
 
 const Navbar = () => {
-	const { authenticate, isAuthenticated, logout, user } = useMoralis();
-
-	const {
-		web3,
-		enableWeb3,
-		isWeb3Enabled,
-		isWeb3EnableLoading,
-		web3EnableError,
-		Moralis,
-	} = useMoralis();
-
-	// console.log(isWeb3Enabled);
-
-	const authenticateUser = () => {
-		authenticate();
-		enableWeb3();
-	};
-
-	console.log(web3, isWeb3Enabled);
-
-	const getnetwork = async () => {
-		const chainId = await Moralis.getChainId();
-		console.log(chainId);
-	};
-
-	const initalChecks = async () => {
-		const isMetaMaskInstalled = await Moralis.isMetaMaskInstalled();
-		console.log("Is metaMask " + isMetaMaskInstalled);
-
-		if (isMetaMaskInstalled && !isWeb3Enabled) {
-			enableWeb3();
-		}
-	};
+	const { authenticate, isAuthenticated, logout } = useMoralis();
+	const { switchNetwork } = useChain();
+	const { chainId, walletAddress } = useMoralisDapp();
+	const [selected, setSelected] = useState();
 
 	useEffect(() => {
-		// if (window.ethereum !== undefined) {
-		// 	enableWeb3();
-		// }
+		if (!chainId) return null;
+		if (chainId !== "0x89") {
+			console.log("current chainId: ", chainId);
+			// Alert Wrong Chain Id
+			setSelected("Wrong Chain");
+		} else setSelected("Polygon");
+	}, [chainId]);
 
-		initalChecks();
-
-		Moralis.onAccountsChanged(async (accs) => {
-			const confirmed = window.confirm("Link this address to your account?");
-			if (confirmed) {
-				await Moralis.link(accs[0]);
-				alert("Address added!");
-			}
-			console.log(accs);
-		});
-		Moralis.onChainChanged((network) => {
-			console.log(network);
-		});
-		Moralis.onConnect(() => {
-			console.log("Connected");
-		});
-		Moralis.onDisconnect(() => {
-			console.log("DisConnected");
-		});
-	}, []);
+	const handleNetworkClick = (e) => {
+		console.log("switch to: ", "0x89");
+		switchNetwork("0x89");
+	};
+	const handleClick = async () => {
+		await authenticate();
+	};
 
 	return (
 		<NavigationBar>
@@ -88,22 +53,21 @@ const Navbar = () => {
 					DCA
 				</Link>
 			</div>
-			{isAuthenticated ? (
-				<Button stroke onClick={getnetwork}>
-					Polygon
-				</Button>
-			) : (
-				<Button stroke onClick={() => logout()}>
-					Polygon
-				</Button>
-			)}
+			<Button
+				id="chain"
+				stroke={chainId === "0x89"}
+				alert={chainId !== "0x89"}
+				onClick={handleNetworkClick}>
+				{chainId === "0x89" && <img src={PolygonLogoSVG} alt="Polygon" />}
+				{selected}
+			</Button>
 			{!isAuthenticated ? (
-				<Button stroke onClick={authenticateUser}>
+				<Button stroke onClick={() => handleClick()}>
 					Connect Wallet
 				</Button>
 			) : (
 				<Button stroke onClick={() => logout()}>
-					LogOut
+					Logout {walletAddress?.slice(0, 5)}...
 				</Button>
 			)}
 		</NavigationBar>

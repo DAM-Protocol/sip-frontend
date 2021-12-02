@@ -11,6 +11,8 @@ import DcaRoutes from "./Routes/DcaRoutes";
 // Styles
 import AppStyled from "./App.styles";
 
+import { MoralisDappProvider } from "./context/MoralisDappProvider";
+
 // Lazy Imports
 const Home = lazy(() => import("./pages/Home"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -18,49 +20,51 @@ const Components = lazy(() => import("./pages/Components"));
 
 const App = () => {
 	return (
-		<AppStyled>
-			<Navbar />
-			<main>
-				<Routes>
-					{/* Base Route */}
-					<Route path="/">
-						{/* Route `/` */}
-						<Route
-							index
-							element={
-								<Suspense fallback={<Loader />}>
-									<Home />
-								</Suspense>
-							}
-						/>
+		<MoralisDappProvider>
+			<AppStyled>
+				<Navbar />
+				<main>
+					<Routes>
+						{/* Base Route */}
+						<Route path="/">
+							{/* Route `/` */}
+							<Route
+								index
+								element={
+									<Suspense fallback={<Loader />}>
+										<Home />
+									</Suspense>
+								}
+							/>
 
-						<Route path="dca/*" exact element={<DcaRoutes />} />
-						<Route path="dhedge/*" exact element={<DhedgeRoutes />} />
+							<Route path="dca/*" exact element={<DcaRoutes />} />
+							<Route path="dhedge/*" exact element={<DhedgeRoutes />} />
 
-						{/* Component Showcase -- For Dev purposes only */}
-						<Route
-							path="components"
-							exact
-							element={
-								<Suspense fallback={<Loader />}>
-									<Components />
-								</Suspense>
-							}
-						/>
+							{/* Component Showcase -- For Dev purposes only */}
+							<Route
+								path="components"
+								exact
+								element={
+									<Suspense fallback={<Loader />}>
+										<Components />
+									</Suspense>
+								}
+							/>
 
-						<Route
-							exact
-							path="*"
-							element={
-								<Suspense fallback={<Loader />}>
-									<NotFound />
-								</Suspense>
-							}
-						/>
-					</Route>
-				</Routes>
-			</main>
-		</AppStyled>
+							<Route
+								exact
+								path="*"
+								element={
+									<Suspense fallback={<Loader />}>
+										<NotFound />
+									</Suspense>
+								}
+							/>
+						</Route>
+					</Routes>
+				</main>
+			</AppStyled>
+		</MoralisDappProvider>
 	);
 };
 

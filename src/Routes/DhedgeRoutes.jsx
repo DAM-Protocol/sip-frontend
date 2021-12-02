@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "../components/Loader/Loader";
 
-const DhedgeInterface = lazy(() => import("../pages/DHEDGE/Interface"));
+const DhedgeInterface = lazy(() => import("../pages/DHEDGE/Interface/"));
 const DhedgeDashboard = lazy(() => import("../pages/DHEDGE/Dashboard"));
 const Pool = lazy(() => import("../pages/DHEDGE/Pool"));
 
@@ -11,7 +11,7 @@ const DhedgeRoutes = () => {
 		<Routes>
 			<Route
 				exact
-				path="interface"
+				path="interface/:contractAddress"
 				element={
 					<Suspense fallback={<Loader />}>
 						<DhedgeInterface />

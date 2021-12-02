@@ -48,7 +48,7 @@ export const darkTheme = {
 		neutral: {
 			gray: "#181818",
 			black: "#221E30",
-			white: "#fff",
+			white: "#ffffff",
 			red: "#F43E22",
 		},
 
@@ -61,6 +61,6 @@ export const darkTheme = {
 		alert: "#AE1317",
 
 		navbar: "#090909",
-		text: "#fff",
+		text: "#ffffff",
 	},
 };
