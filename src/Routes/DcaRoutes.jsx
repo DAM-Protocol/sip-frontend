@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "../components/Loader/Loader";
 
-const DcaInterface = lazy(() => import("../pages/DCA/Interface"));
+const DcaInterface = lazy(() => import("../pages/DCA/Interface/"));
 const DcaDashboard = lazy(() => import("../pages/DCA/Dashboard"));
 
 const DcaRoutes = () => {
