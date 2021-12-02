@@ -15,16 +15,17 @@ const TokenInput = ({
 	wasSubmitted,
 	tokenList,
 	tokensLookup,
+	customAddress,
+	allowSearch,
 }) => {
-	const [value, setValue] = useState("");
+	const [value, setValue] = useState();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [touched, setTouched] = useState(false);
-	const errorMessage = getFieldError(value?.id, tokensLookup);
+	const errorMessage = getFieldError(value?.id || value?.address, tokensLookup);
 	const displayErrorMessage = (wasSubmitted || touched) && errorMessage;
 
 	const openModal = (e) => {
 		e?.preventDefault();
-		console.log("open modal");
 		setIsModalOpen(true);
 	};
 
@@ -38,6 +39,8 @@ const TokenInput = ({
 					setIsModalOpen={setIsModalOpen}
 					setValue={setValue}
 					tokenList={tokenList}
+					customAddress={customAddress}
+					allowSearch={allowSearch}
 				/>
 			)}
 
@@ -60,7 +63,7 @@ const TokenInput = ({
 				<input
 					hidden
 					name={`${name}-address-input`}
-					value={value ? value?.id : ""}
+					value={value ? (value?.id ? value.id : value.address) : ""}
 					readOnly
 					type="text"
 					required

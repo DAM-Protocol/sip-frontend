@@ -91,6 +91,41 @@ export const ListItem = styled.div`
 `;
 
 export const TokenList = styled.div`
-	height: calc(100% - 3rem);
+	height: ${(props) =>
+		(props.allowSearch && "calc(100% - 5rem)") || "calc(100% - 3rem)"};
+
 	overflow: auto;
+`;
+
+export const SearchBar = styled.input`
+	width: 100%;
+	border: 2px solid ${(props) => props.theme.colors.lightbackground};
+
+	background: ${(props) => props.theme.colors.lightbackground};
+	color: ${(props) => props.theme.colors.text};
+	padding: 0.5rem 1rem;
+	font-size: 1.2rem;
+	border-radius: 1rem;
+	margin-bottom: 0.5rem;
+
+	width: 100%;
+	:focus-visible {
+		outline: #f6b243 2px solid;
+	}
+
+	/* ::placeholder,
+	:-ms-input-placeholder,
+	:-moz-placeholder,
+	:-webkit-input-placeholder {
+	} */
+	::-webkit-input-placeholder,
+	:-ms-input-placeholder {
+		/* Edge */
+		color: ${(props) => `${props.theme.colors.text}dd`};
+	}
+
+	::placeholder {
+		color: ${(props) => `${props.theme.colors.text}`};
+		color: ${(props) => `${props.theme.colors.text}75`};
+	}
 `;
