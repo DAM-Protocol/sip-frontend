@@ -63,7 +63,7 @@ const Navbar = () => {
 			</Button>
 			{!isAuthenticated ? (
 				<Button stroke onClick={() => handleClick()}>
-					Connect Wallet
+					Login
 				</Button>
 			) : (
 				<Button stroke onClick={() => logout()}>

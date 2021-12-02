@@ -7,7 +7,6 @@ function MoralisDappProvider({ children }) {
 		web3,
 		Moralis,
 		user,
-		authenticate,
 		enableWeb3,
 		isWeb3Enabled,
 		isAuthenticated,
@@ -16,17 +15,11 @@ function MoralisDappProvider({ children }) {
 
 	const [walletAddress, setWalletAddress] = useState();
 	const [chainId, setChainId] = useState();
-	const [marketAddress, setMarketAddress] = useState();
 
 	useEffect(() => {
-		if (!isWeb3EnableLoading)
-			if (!isAuthenticated && !isWeb3Enabled) {
-				console.log(isAuthenticated, isWeb3Enabled, isWeb3EnableLoading);
-				enableWeb3();
-			}
-
+		if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuthenticated, isWeb3Enabled, isWeb3EnableLoading]);
+	}, [isAuthenticated, isWeb3Enabled]);
 
 	useEffect(() => {
 		Moralis.onChainChanged(function (chain) {
@@ -54,8 +47,6 @@ function MoralisDappProvider({ children }) {
 			value={{
 				walletAddress,
 				chainId,
-				marketAddress,
-				setMarketAddress,
 			}}>
 			{children}
 		</MoralisDappContext.Provider>

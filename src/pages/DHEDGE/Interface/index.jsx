@@ -17,7 +17,6 @@ import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
 import TokenInput from "../../../components/Inputs/TokenInput";
 import RateInput from "../../../components/Inputs/RateInput";
 import InterfaceSidebar from "./InterfaceSidebar";
-import { useAPIContract } from "../../../hooks/useAPIContract";
 
 const DhedgeInterface = () => {
 	// dHEDGE SIP Contract Address
@@ -30,12 +29,6 @@ const DhedgeInterface = () => {
 
 	const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis();
 	const Web3Api = useMoralisWeb3Api();
-	const { runContractFunction, contractResponse, error, isLoading } =
-		useAPIContract({
-			contractAddress: contractAddress,
-			functionName: "getPoolLogic",
-			abi: dhedgeSipAbi,
-		});
 
 	const [wasSubmitted, setWasSubmitted] = useState(false);
 	const [tokenList, setTokenList] = useState();
@@ -62,9 +55,6 @@ const DhedgeInterface = () => {
 			abi: dhedgeSipAbi,
 		});
 		setPoolAddress(_pooladdress);
-
-		await runContractFunction();
-		console.log(contractResponse, isLoading);
 
 		if (_pooladdress) {
 			// Get dHEDGE Pool Data
@@ -102,11 +92,7 @@ const DhedgeInterface = () => {
 	}, [isAuthenticated, isWeb3Enabled, contractAddress]);
 
 	useEffect(() => {
-		console.log([isAuthenticated, isWeb3Enabled]);
-
-		if (isAuthenticated || isWeb3Enabled) {
-			console.log("Web3 is enabled");
-
+		if (isWeb3Enabled) {
 			fetchAllData();
 			initialiseSuperfluid();
 		}
