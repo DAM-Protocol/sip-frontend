@@ -157,11 +157,7 @@ const DhedgeInterface = () => {
 					tokenList={tokenList}
 					seed={contractAddress}
 				/>
-				<Form
-					noValidate
-					onSubmit={handleSubmit}
-					poolAddress={poolAddress}
-					contractAddress={contractAddress}>
+				<Form noValidate onSubmit={handleSubmit}>
 					<TokenInput
 						name="Token"
 						reason="To Stream"
@@ -169,7 +165,7 @@ const DhedgeInterface = () => {
 						tokenList={superTokenList?.tokens}
 						tokensLookup={tokensLookup}
 					/>
-					<RateInput wasSubmitted={wasSubmitted} />
+					<RateInput fieldName="Rate" wasSubmitted={wasSubmitted} />
 					<Button filled type="submit">
 						Start Streaming
 					</Button>

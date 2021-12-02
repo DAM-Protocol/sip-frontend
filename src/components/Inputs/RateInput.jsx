@@ -5,7 +5,7 @@ function getFieldError(value) {
 	if (!value) return "field is required";
 }
 
-const RateInput = ({ wasSubmitted }) => {
+const RateInput = ({ wasSubmitted, fieldName }) => {
 	const [value, setValue] = useState("");
 	const [touched, setTouched] = useState(false);
 	const errorMessage = getFieldError(value);
@@ -13,7 +13,7 @@ const RateInput = ({ wasSubmitted }) => {
 
 	return (
 		<Field key={"rate"}>
-			<label htmlFor={`rate-input`}>Rate</label>
+			<label htmlFor={`rate-input`}>{fieldName}</label>
 
 			<InputContainer>
 				<input
