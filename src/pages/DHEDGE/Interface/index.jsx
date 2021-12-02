@@ -17,6 +17,7 @@ import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
 import TokenInput from "../../../components/Inputs/TokenInput";
 import RateInput from "../../../components/Inputs/RateInput";
 import InterfaceSidebar from "./InterfaceSidebar";
+import { useAPIContract } from "../../../hooks/useAPIContract";
 
 const DhedgeInterface = () => {
 	// dHEDGE SIP Contract Address
@@ -27,8 +28,14 @@ const DhedgeInterface = () => {
 	// SuperFluid SDK Object
 	const [superFluid, setSuperFluid] = useState();
 
-	const { Moralis, isWeb3Enabled } = useMoralis();
+	const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis();
 	const Web3Api = useMoralisWeb3Api();
+	const { runContractFunction, contractResponse, error, isLoading } =
+		useAPIContract({
+			contractAddress: contractAddress,
+			functionName: "getPoolLogic",
+			abi: dhedgeSipAbi,
+		});
 
 	const [wasSubmitted, setWasSubmitted] = useState(false);
 	const [tokenList, setTokenList] = useState();
@@ -55,6 +62,9 @@ const DhedgeInterface = () => {
 			abi: dhedgeSipAbi,
 		});
 		setPoolAddress(_pooladdress);
+
+		await runContractFunction();
+		console.log(contractResponse, isLoading);
 
 		if (_pooladdress) {
 			// Get dHEDGE Pool Data
@@ -89,26 +99,29 @@ const DhedgeInterface = () => {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [Moralis, contractAddress]);
+	}, [isAuthenticated, isWeb3Enabled, contractAddress]);
 
 	useEffect(() => {
-		(async () => {
-			if (!isWeb3Enabled) {
-				console.log("Enabling Web3");
-				await Moralis.enable();
-				const web3 = await Moralis.enableWeb3();
-				fetchAllData();
+		console.log([isAuthenticated, isWeb3Enabled]);
 
-				// Initialise Superfluid SDK
-				const sf = new SuperfluidSDK.Framework({
-					web3: web3,
-				});
-				await sf.initialize();
-				setSuperFluid(sf);
-			}
-		})();
+		if (isAuthenticated || isWeb3Enabled) {
+			console.log("Web3 is enabled");
+
+			fetchAllData();
+			initialiseSuperfluid();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [isAuthenticated, isWeb3Enabled]);
+
+	const initialiseSuperfluid = useCallback(async () => {
+		const web3 = await Moralis.enableWeb3();
+		// Initialise Superfluid SDK
+		const sf = new SuperfluidSDK.Framework({
+			web3: web3,
+		});
+		await sf.initialize();
+		setSuperFluid(sf);
+	}, [Moralis]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();

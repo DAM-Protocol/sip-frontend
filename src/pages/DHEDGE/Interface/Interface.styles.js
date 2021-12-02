@@ -17,18 +17,13 @@ export const Interface = styled.div`
 
 export const Sidebar = styled.div`
 	background: ${(props) => props.theme.colors.darkbackground};
-
+	text-align: center;
 	max-width: 30ch;
 	width: 40%;
 
 	padding: 2rem 2rem;
 
 	border-radius: 1.75rem;
-
-	h3,
-	h4 {
-		text-align: left;
-	}
 
 	.flex-column {
 		display: flex;
@@ -40,6 +35,7 @@ export const Sidebar = styled.div`
 
 	.assets {
 		display: flex;
+		justify-content: space-evenly;
 		flex-wrap: wrap;
 		margin-top: 0.75rem;
 		max-height: 6rem;

@@ -6,6 +6,9 @@ const Button = styled.button`
 	padding: 0.35rem 1.75rem;
 	margin: 0 0.5rem;
 	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	border-radius: 50px;
 	box-sizing: border-box;
 	background: ${(props) =>
@@ -32,10 +35,17 @@ const Button = styled.button`
 			(props.light && `${props.theme.colors.primary.gold}aa`) ||
 			`${props.theme.colors.primary.gold}25`};
 	}
+
+	img {
+		height: 1.1rem;
+		margin-right: 0.75rem;
+	}
 `;
 
 export const LinkButton = styled.a`
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 1.2rem;
 	width: fit-content;
 	padding: 0.35rem 1.75rem;
@@ -66,6 +76,10 @@ export const LinkButton = styled.a`
 			(props.alert && `${props.theme.colors.alert}75`) ||
 			(props.light && `${props.theme.colors.primary.gold}aa`) ||
 			`${props.theme.colors.primary.gold}25`};
+	}
+	img {
+		height: 1.1rem;
+		margin-right: 0.75rem;
 	}
 `;
 
