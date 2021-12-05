@@ -1,16 +1,21 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useReducer, useCallback } from "react";
 import { useMoralis } from "react-moralis";
 
 import Button from "../../../components/Button/Button.styles";
 import { Interface, Form } from "./Interface.styles";
 
-import TokenInput from "../../../components/Inputs/TokenInput";
-import RateInput from "../../../components/Inputs/RateInput";
-import InterfaceSidebar from "./InterfaceSidebar";
 import dcaAbi from "../../../abi/dcaAbi";
 
-const DhedgeInterface = () => {
+import TokenInput from "../../../components/Inputs/TokenInput";
+import TokensPerInterval from "../../../components/Inputs/TpiInput";
+import InterfaceSidebar from "./InterfaceSidebar";
+import FormReducer from "./helpers/reducer";
+import IntervalInput from "../../../components/Inputs/IntervalInput";
+import DateInput from "../../../components/Inputs/DateInput";
+
+const DCAInterface = () => {
 	const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis();
+	const [state, dispatch] = useReducer(FormReducer, {});
 
 	const [wasSubmitted, setWasSubmitted] = useState(false);
 	const [tokenList, setTokenList] = useState([]);
@@ -49,15 +54,17 @@ const DhedgeInterface = () => {
 		(async () => {
 			const formData = new FormData(event.currentTarget);
 			const fieldValues = Object.fromEntries(formData.entries());
+			console.log(fieldValues);
 
 			const formIsValid = Object.values(fieldValues).every((value) => !!value);
-			if (
-				fieldValues["buy-address-input"] === fieldValues["sell-address-input"]
-			) {
-				window.alert("You cannot buy and sell the same token");
-				return;
-			}
+
 			if (formIsValid) {
+				if (
+					fieldValues["Buy-address-input"] === fieldValues["Sell-address-input"]
+				) {
+					window.alert("You cannot buy and sell the same token");
+					return;
+				}
 				// const web3 = await Moralis.enableWeb3();
 				// Call the smart Contract Function
 			}
@@ -72,11 +79,8 @@ const DhedgeInterface = () => {
 				Create <span className="gold-highlight">DCA</span> Task
 			</h1>
 
-			<Interface className="interface">
-				<InterfaceSidebar
-				// data={dHedgePoolData?.fund}
-				// seed={contractAddress}
-				/>
+			<Interface className="interface" id="dcainterface">
+				<InterfaceSidebar data={state} tokenList={tokenList} />
 				<Form noValidate onSubmit={handleSubmit}>
 					<TokenInput
 						name="Buy"
@@ -84,6 +88,7 @@ const DhedgeInterface = () => {
 						wasSubmitted={wasSubmitted}
 						tokenList={tokenList || []}
 						tokensLookup={tokensLookup}
+						dispatch={dispatch}
 						customAddress
 						allowSearch
 					/>
@@ -93,19 +98,25 @@ const DhedgeInterface = () => {
 						wasSubmitted={wasSubmitted}
 						tokenList={tokenList || []}
 						tokensLookup={tokensLookup}
+						dispatch={dispatch}
 						customAddress
 						allowSearch
 					/>
-					<RateInput
+					<TokensPerInterval
 						fieldName={"Tokens/Interval"}
 						wasSubmitted={wasSubmitted}
+						dispatch={dispatch}
 					/>
-					{/* <IntervalInput
+					<IntervalInput
+						fieldName={"Interval"}
 						wasSubmitted={wasSubmitted}
+						dispatch={dispatch}
 					/>
-					<IntervalsInput
+					<DateInput
+						fieldName={"Till Date"}
 						wasSubmitted={wasSubmitted}
-					/> */}
+						dispatch={dispatch}
+					/>
 
 					<Button filled type="submit">
 						Create Task
@@ -116,4 +127,4 @@ const DhedgeInterface = () => {
 	);
 };
 
-export default DhedgeInterface;
+export default DCAInterface;

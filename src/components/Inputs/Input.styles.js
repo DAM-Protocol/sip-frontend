@@ -47,6 +47,28 @@ export const InputContainer = styled.div`
 	input[type="number"] {
 		-moz-appearance: textfield;
 	}
+	input[type="date"] {
+		&::-webkit-calendar-picker-indicator {
+			height: 100%;
+			width: 3.5rem;
+			cursor: pointer;
+			background-color: ${(props) => props.theme.colors.darkbackground};
+			background-image: ${(props) =>
+				`url(
+					'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23${props.theme.colors.text.slice(
+						1
+					)}75" width="16" height="15" viewBox="0 0 24 24"><path  d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>'
+				)`};
+			background-position: 50% 50%;
+			background-size: 1.75rem;
+
+			position: absolute;
+			right: 0;
+
+			z-index: 2;
+			border-radius: 1rem;
+		}
+	}
 `;
 
 export const RightButton = styled.div`
@@ -62,6 +84,17 @@ export const RightButton = styled.div`
 	cursor: pointer;
 	padding: 1rem;
 	color: ${(props) => `${props.theme.colors.text}75`};
+
+	select {
+		background: unset;
+		color: unset;
+		border: unset;
+		font-size: unset;
+		cursor: pointer;
+		&:focus-visible {
+			outline: none;
+		}
+	}
 `;
 
 export const TokenSymbol = styled.span`
@@ -113,11 +146,6 @@ export const SearchBar = styled.input`
 		outline: #f6b243 2px solid;
 	}
 
-	/* ::placeholder,
-	:-ms-input-placeholder,
-	:-moz-placeholder,
-	:-webkit-input-placeholder {
-	} */
 	::-webkit-input-placeholder,
 	:-ms-input-placeholder {
 		/* Edge */
