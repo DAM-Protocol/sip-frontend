@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Field, InputContainer, RightButton } from "./Input.styles";
 
 import TokenInputModal from "./TokenInputModal";
 import { BsChevronDown } from "react-icons/bs";
+
+const MemoizedTokenInputModal = memo(TokenInputModal);
 
 function getFieldError(value, tokensLookup) {
 	if (!value) return "Field is required";
@@ -33,9 +35,8 @@ const TokenInput = ({
 		<Field key={name}>
 			{/* Modal */}
 			{isModalOpen && (
-				<TokenInputModal
+				<MemoizedTokenInputModal
 					reason={reason}
-					isModalOpen={isModalOpen}
 					setIsModalOpen={setIsModalOpen}
 					setValue={setValue}
 					tokenList={tokenList}

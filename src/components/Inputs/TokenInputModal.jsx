@@ -59,6 +59,7 @@ const TokenInputModal = ({
 					e.preventDefault();
 				}
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[Web3Api.token, web3.utils]
 	);
 	useEffect(() => {
