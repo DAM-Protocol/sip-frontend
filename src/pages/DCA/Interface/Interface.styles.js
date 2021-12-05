@@ -5,7 +5,7 @@ export const Interface = styled.div`
 	background: ${(props) => props.theme.colors.graybackground};
 	display: flex;
 
-	height: calc(100vh - 18rem);
+	min-height: calc(100vh - 18rem);
 	max-width: 80ch;
 
 	padding: 0.25rem;
@@ -45,13 +45,16 @@ export const Sidebar = styled.div`
 export const Form = styled.form`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: start;
 	align-items: center;
 	width: 100%;
 	max-width: 50ch;
 	padding: 2rem 2rem;
 	button[type="submit"] {
-		margin-top: auto;
+		justify-self: end;
+		margin-top: 1rem;
+		position: sticky;
+		bottom: 0;
 	}
 `;
 
