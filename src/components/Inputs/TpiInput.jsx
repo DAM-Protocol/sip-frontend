@@ -17,7 +17,7 @@ const RateInput = ({ wasSubmitted, fieldName }) => {
 
 			<InputContainer>
 				<input
-					id="rate-input"
+					id="rate"
 					name="rate"
 					type="number"
 					onChange={(event) => setValue(event.currentTarget.value)}

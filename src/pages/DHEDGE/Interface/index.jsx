@@ -121,7 +121,7 @@ const DhedgeInterface = () => {
 
 				const amountPerMonth = new BigNumber(fieldValues["rate"]).multipliedBy(
 					new BigNumber(10).pow(
-						tokensLookup[fieldValues["Token-address-input"]].decimals
+						tokensLookup[fieldValues["Token-address"]].decimals
 					)
 				);
 
@@ -133,7 +133,7 @@ const DhedgeInterface = () => {
 				// Initiate Flow of super tokens
 				const sfUser = superFluid.user({
 					address: web3.currentProvider.selectedAddress,
-					token: fieldValues["Token-address-input"],
+					token: fieldValues["Token-address"],
 				});
 				await sfUser.flow({
 					recipient: contractAddress,

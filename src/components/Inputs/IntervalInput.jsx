@@ -14,7 +14,7 @@ const IntervalInput = ({ wasSubmitted, fieldName }) => {
 
 			<InputContainer>
 				<input
-					id="interval-input"
+					id="interval"
 					name="interval"
 					type="number"
 					onChange={(event) => setValue(event.currentTarget.value)}

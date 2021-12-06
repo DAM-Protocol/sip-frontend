@@ -13,7 +13,7 @@ const DateInput = ({ wasSubmitted, fieldName }) => {
 
 			<InputContainer>
 				<input
-					id="till-date-input"
+					id="till-date"
 					name="till-date"
 					type="date"
 					onChange={(event) => setValue(event.currentTarget.value)}

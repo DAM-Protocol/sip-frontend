@@ -9,13 +9,12 @@ import dcaAbi from "../../../abi/dcaAbi";
 import TokenInput from "../../../components/Inputs/TokenInput";
 import TokensPerInterval from "../../../components/Inputs/TpiInput";
 import InterfaceSidebar from "./InterfaceSidebar";
-import FormReducer from "./helpers/reducer";
+
 import IntervalInput from "../../../components/Inputs/IntervalInput";
 import DateInput from "../../../components/Inputs/DateInput";
 
 const DCAInterface = () => {
 	const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis();
-	const [state, dispatch] = useReducer(FormReducer, {});
 
 	const [wasSubmitted, setWasSubmitted] = useState(false);
 	const [tokenList, setTokenList] = useState([]);
@@ -59,9 +58,7 @@ const DCAInterface = () => {
 			const formIsValid = Object.values(fieldValues).every((value) => !!value);
 
 			if (formIsValid) {
-				if (
-					fieldValues["Buy-address-input"] === fieldValues["Sell-address-input"]
-				) {
+				if (fieldValues["Buy-address"] === fieldValues["Sell-address"]) {
 					window.alert("You cannot buy and sell the same token");
 					return;
 				}
@@ -80,7 +77,7 @@ const DCAInterface = () => {
 			</h1>
 
 			<Interface className="interface" id="dcainterface">
-				<InterfaceSidebar data={state} tokenList={tokenList} />
+				<InterfaceSidebar />
 				<Form noValidate onSubmit={handleSubmit}>
 					<TokenInput
 						name="Buy"
@@ -88,7 +85,6 @@ const DCAInterface = () => {
 						wasSubmitted={wasSubmitted}
 						tokenList={tokenList || []}
 						tokensLookup={tokensLookup}
-						dispatch={dispatch}
 						customAddress
 						allowSearch
 					/>
@@ -98,25 +94,15 @@ const DCAInterface = () => {
 						wasSubmitted={wasSubmitted}
 						tokenList={tokenList || []}
 						tokensLookup={tokensLookup}
-						dispatch={dispatch}
 						customAddress
 						allowSearch
 					/>
 					<TokensPerInterval
 						fieldName={"Tokens/Interval"}
 						wasSubmitted={wasSubmitted}
-						dispatch={dispatch}
 					/>
-					<IntervalInput
-						fieldName={"Interval"}
-						wasSubmitted={wasSubmitted}
-						dispatch={dispatch}
-					/>
-					<DateInput
-						fieldName={"Till Date"}
-						wasSubmitted={wasSubmitted}
-						dispatch={dispatch}
-					/>
+					<IntervalInput fieldName={"Interval"} wasSubmitted={wasSubmitted} />
+					<DateInput fieldName={"Till Date"} wasSubmitted={wasSubmitted} />
 
 					<Button filled type="submit">
 						Create Task
