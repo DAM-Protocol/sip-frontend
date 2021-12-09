@@ -8,7 +8,6 @@ import dcaAbi from "../../../abi/dcaAbi";
 
 import TokenInput from "../../../components/Inputs/TokenInput";
 import TokensPerInterval from "../../../components/Inputs/TpiInput";
-import InterfaceSidebar from "./InterfaceSidebar";
 
 import IntervalInput from "../../../components/Inputs/IntervalInput";
 import DateInput from "../../../components/Inputs/DateInput";
@@ -77,7 +76,6 @@ const DCAInterface = () => {
 			</h1>
 
 			<Interface className="interface" id="dcainterface">
-				<InterfaceSidebar />
 				<Form noValidate onSubmit={handleSubmit}>
 					<TokenInput
 						name="Buy"

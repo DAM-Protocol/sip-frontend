@@ -7,6 +7,7 @@ export const Interface = styled.div`
 
 	min-height: calc(100vh - 18rem);
 	max-width: 80ch;
+	width: fit-content;
 
 	padding: 0.25rem;
 	margin: auto;

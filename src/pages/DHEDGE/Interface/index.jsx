@@ -3,7 +3,7 @@ import SuperfluidSDK from "@superfluid-finance/js-sdk";
 import BigNumber from "bignumber.js";
 import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { useMoralis, useMoralisWeb3Api } from "react-moralis";
+import { useMoralis, useMoralisWeb3Api, useChain } from "react-moralis";
 
 import Button from "../../../components/Button/Button.styles";
 import { Interface, Form } from "./Interface.styles";
@@ -28,6 +28,7 @@ const DhedgeInterface = () => {
 	const [superFluid, setSuperFluid] = useState();
 
 	const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis();
+	const { chainId } = useChain();
 	const Web3Api = useMoralisWeb3Api();
 
 	const [wasSubmitted, setWasSubmitted] = useState(false);
@@ -97,7 +98,7 @@ const DhedgeInterface = () => {
 			initialiseSuperfluid();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuthenticated, isWeb3Enabled]);
+	}, [isAuthenticated, isWeb3Enabled, chainId]);
 
 	const initialiseSuperfluid = useCallback(async () => {
 		const web3 = await Moralis.enableWeb3();

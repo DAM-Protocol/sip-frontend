@@ -49,7 +49,7 @@ export const InputContainer = styled.div`
 	}
 	input[type="date"] {
 		&::-webkit-calendar-picker-indicator {
-			height: 100%;
+			height: calc(100% - 4px);
 			width: 3.5rem;
 			cursor: pointer;
 			background-color: ${(props) => props.theme.colors.darkbackground};
