@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Lato", sans-serif;
+}
+
+.card-section {
+	padding: 2rem 5rem;
+	display: grid;
+	grid-template-columns: auto auto auto;
+}
+
+.card {
+	padding: 1.5rem 1rem;
+	background: #282838;
+	border-radius: 20px;
+	margin: 2rem 4rem;
+}
+
+.title-section {
+	display: flex;
+	margin-bottom: 2rem;
+}
+
+.card-profile {
+	height: 2.8rem;
+	border-radius: 100px;
+}
+
+.title-section-name {
+	margin-left: 10px;
+}
+
+.title-full-name {
+	color: #fff;
+	margin-bottom: 8px;
+	margin-top: 1px;
+}
+
+.title-short-name {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.price-section {
+	margin-bottom: 2rem;
+}
+
+.price-section-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 0.2rem;
+}
+
+.price-left-text {
+	color: #fff;
+}
+
+.price-right-text {
+	color: #ffb200;
+}
+
+.assets-section {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 2rem;
+}
+
+.assets-left-text {
+	color: #fff;
+	font-size: 1.2rem;
+}
+
+.assets-coin-section {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.asset-coin {
+	margin: 0 0.4rem;
+	color: #fff;
+	border: 2px solid #ffb200;
+	border-radius: 43px;
+	padding: 1px 8px;
+}
+
+.buttons-section {
+	display: flex;
+	justify-content: space-around;
+}
+
+.button {
+	background: #ffb200;
+	color: #221e30;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0.4rem 1rem;
+}
