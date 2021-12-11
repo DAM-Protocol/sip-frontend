@@ -2,14 +2,13 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import SuperfluidSDK from "@superfluid-finance/js-sdk";
 import BigNumber from "bignumber.js";
 import { useParams } from "react-router-dom";
-import { gql } from "@apollo/client";
 import { useMoralis, useMoralisWeb3Api, useChain } from "react-moralis";
 
 import Button from "../../../components/Button/Button.styles";
 import { Interface, Form } from "./Interface.styles";
 
 import { useDHedgeLazyQuery } from "../../../hooks/useDHedgeQuery";
-import { useSfSubgraphLazyQuery } from "../../../hooks/useSfSubgraphLazyQuery";
+import { useSfSubgraphLazyQuery } from "../../../hooks/useSfSubgraphQuery";
 
 import dhedgeSipAbi from "../../../abi/dHedgeSipAbi";
 import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
@@ -17,6 +16,8 @@ import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
 import TokenInput from "../../../components/Inputs/TokenInput";
 import RateInput from "../../../components/Inputs/RateInput";
 import InterfaceSidebar from "./InterfaceSidebar";
+import GET_POOL_INFO from "../../../queries/getPoolInfo";
+import GET_SUPER_TOKEN_LIST from "../../../queries/getSuperTokenList";
 
 const DhedgeInterface = () => {
 	// dHEDGE SIP Contract Address
@@ -70,6 +71,7 @@ const DhedgeInterface = () => {
 					functionName: "getDepositAssets",
 					abi: dhedgeCoreAbi,
 				});
+				console.log(_data.fund.managerLogicAddress);
 
 				// Get deposit tokens metadata
 				const options = { chain: "polygon", addresses: depositAssets };
@@ -175,29 +177,5 @@ const DhedgeInterface = () => {
 		</div>
 	);
 };
-const GET_POOL_INFO = gql`
-	query GetPoolInfo($address: String!) {
-		fund(address: $address) {
-			id
-			managerName
-			name
-			managerLogicAddress
-		}
-	}
-`;
-
-const GET_SUPER_TOKEN_LIST = gql`
-	query Tokens($where: Token_filter) {
-		tokens(where: $where) {
-			name
-			id
-			symbol
-			decimals
-			underlyingToken {
-				name
-			}
-		}
-	}
-`;
 
 export default DhedgeInterface;

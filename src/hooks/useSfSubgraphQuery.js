@@ -1,4 +1,9 @@
-import { ApolloClient, InMemoryCache, useLazyQuery } from "@apollo/client";
+import {
+	ApolloClient,
+	InMemoryCache,
+	useLazyQuery,
+	useQuery,
+} from "@apollo/client";
 
 const defaultOptions = {
 	watchQuery: {
@@ -20,4 +25,7 @@ const superfluidSubgraphClient = new ApolloClient({
 
 export function useSfSubgraphLazyQuery(query, config) {
 	return useLazyQuery(query, { client: superfluidSubgraphClient, ...config });
+}
+export function useSfSubgraphQuery(query, config) {
+	return useQuery(query, { client: superfluidSubgraphClient, ...config });
 }

@@ -8,12 +8,7 @@ const abi = [
 			},
 			{
 				internalType: "address",
-				name: "_ChainLinkAggregator",
-				type: "address",
-			},
-			{
-				internalType: "address",
-				name: "_feeToken",
+				name: "_chainLinkAggregator",
 				type: "address",
 			},
 			{
@@ -30,32 +25,82 @@ const abi = [
 		inputs: [
 			{
 				indexed: false,
+				internalType: "uint256",
+				name: "id",
+				type: "uint256",
+			},
+		],
+		name: "DeleteTask",
+		type: "event",
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: false,
+				internalType: "string",
+				name: "message",
+				type: "string",
+			},
+		],
+		name: "Log",
+		type: "event",
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: false,
+				internalType: "uint256",
+				name: "id",
+				type: "uint256",
+			},
+			{
+				indexed: false,
 				internalType: "address",
-				name: "_from",
+				name: "from",
 				type: "address",
 			},
 			{
 				indexed: false,
 				internalType: "address",
-				name: "_to",
+				name: "to",
 				type: "address",
 			},
 			{
 				indexed: false,
 				internalType: "uint256",
-				name: "_amount",
+				name: "amount",
 				type: "uint256",
 			},
 			{
 				indexed: false,
 				internalType: "uint64",
-				name: "_delay",
+				name: "delay",
 				type: "uint64",
 			},
 			{
 				indexed: false,
 				internalType: "uint64",
-				name: "_intervals",
+				name: "intervals",
+				type: "uint64",
+			},
+			{
+				indexed: false,
+				internalType: "address",
+				name: "owner",
+				type: "address",
+			},
+			{
+				indexed: false,
+				internalType: "uint64",
+				name: "lastExecuted",
+				type: "uint64",
+			},
+			{
+				indexed: false,
+				internalType: "uint64",
+				name: "count",
 				type: "uint64",
 			},
 		],
@@ -82,30 +127,29 @@ const abi = [
 		type: "event",
 	},
 	{
-		inputs: [],
-		name: "ChainLinkAggregator",
-		outputs: [
+		anonymous: false,
+		inputs: [
 			{
-				internalType: "contract IChainLinkAggregator",
-				name: "",
-				type: "address",
+				indexed: false,
+				internalType: "uint256",
+				name: "id",
+				type: "uint256",
+			},
+			{
+				indexed: false,
+				internalType: "uint64",
+				name: "count",
+				type: "uint64",
+			},
+			{
+				indexed: false,
+				internalType: "uint64",
+				name: "lastExecuted",
+				type: "uint64",
 			},
 		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [],
-		name: "Uniswap",
-		outputs: [
-			{
-				internalType: "contract IUniswapV2Router02",
-				name: "",
-				type: "address",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
+		name: "TaskExecuted",
+		type: "event",
 	},
 	{
 		inputs: [],
@@ -158,7 +202,13 @@ const abi = [
 		type: "function",
 	},
 	{
-		inputs: [],
+		inputs: [
+			{
+				internalType: "address payable",
+				name: "_receiver",
+				type: "address",
+			},
+		],
 		name: "collectFees",
 		outputs: [],
 		stateMutability: "nonpayable",
@@ -180,8 +230,40 @@ const abi = [
 			},
 		],
 		name: "deleteTask",
-		outputs: [],
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
 		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "getAggregator",
+		outputs: [
+			{
+				internalType: "address",
+				name: "",
+				type: "address",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "getRouter",
+		outputs: [
+			{
+				internalType: "address",
+				name: "",
+				type: "address",
+			},
+		],
+		stateMutability: "view",
 		type: "function",
 	},
 	{
@@ -220,7 +302,7 @@ const abi = [
 				type: "bool",
 			},
 		],
-		stateMutability: "nonpayable",
+		stateMutability: "payable",
 		type: "function",
 	},
 	{
@@ -260,6 +342,32 @@ const abi = [
 		inputs: [
 			{
 				internalType: "address",
+				name: "_chainLinkAggregator",
+				type: "address",
+			},
+		],
+		name: "setAggregator",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_swapRouter",
+				type: "address",
+			},
+		],
+		name: "setRouter",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
 				name: "newOwner",
 				type: "address",
 			},
@@ -272,25 +380,12 @@ const abi = [
 	{
 		inputs: [
 			{
-				internalType: "address",
-				name: "_feeToken",
-				type: "address",
-			},
-		],
-		name: "updateFeeToken",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
 				internalType: "uint256",
 				name: "_fee",
 				type: "uint256",
 			},
 		],
-		name: "updateFeetoken",
+		name: "updateFee",
 		outputs: [],
 		stateMutability: "nonpayable",
 		type: "function",
