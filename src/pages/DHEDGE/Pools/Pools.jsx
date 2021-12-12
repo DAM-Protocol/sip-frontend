@@ -1,12 +1,13 @@
 import "./Pools.css";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSfSubgraphQuery } from "../../../hooks/useSfSubgraphQuery";
 import { dHedgeContractMap } from "../../../helpers/dHedgeContractMap";
 import { useDHedgeQuery } from "../../../hooks/useDHedgeQuery";
 import dhedgeCoreAbi from "../../../abi/dhedgeCoreAbi";
 import AssetTag from "../../../components/AssetTag.styles";
 import GET_DHEDGE_ASSETS from "../../../queries/getDHedgeAssets";
+import GET_STREAM_INFO_FOR_POOL from "../../../queries/getStreamInfoForPool";
 
 const Pools = () => {
 	const { isWeb3Enabled } = useMoralis();
@@ -38,6 +39,13 @@ const Pools = () => {
 
 const PoolCard = ({ poolDetails, poolAddress, isWeb3Enabled, assetsMap }) => {
 	const { Moralis } = useMoralis();
+	const [streamNumber, setStreamNumber] = useState("loading");
+	const { loading, error, data } = useSfSubgraphQuery(
+		GET_STREAM_INFO_FOR_POOL,
+		{
+			variables: { receiver: poolAddress },
+		}
+	);
 
 	const depositAssets = async () => {
 		const _assets = await Moralis.executeFunction({
@@ -49,13 +57,19 @@ const PoolCard = ({ poolDetails, poolAddress, isWeb3Enabled, assetsMap }) => {
 	};
 
 	useEffect(() => {
+		if (data?.streams) {
+			setStreamNumber(data.streams.length.toString());
+		}
+	}, [data, error]);
+
+	useEffect(() => {
 		if (isWeb3Enabled) depositAssets();
 	}, [isWeb3Enabled]);
 
 	return (
 		<div className="card">
 			<div className="title-section">
-				<img src="./Thumbnail.png" className="card-profile" />
+				<img src={poolDetails.image} className={poolDetails.name} />
 				<div className="title-section-name">
 					<h4 className="title-full-name">{poolDetails.name}</h4>
 					<h5 className="title-short-name">CM</h5>
@@ -68,7 +82,7 @@ const PoolCard = ({ poolDetails, poolAddress, isWeb3Enabled, assetsMap }) => {
 				</div>
 				<div className="price-section-row">
 					<p className="price-left-text">Streams</p>
-					<p className="price-right-text">54</p>
+					<p className="price-right-text">{streamNumber}</p>
 				</div>
 			</div>
 			<div className="assets-section">
@@ -83,8 +97,8 @@ const PoolCard = ({ poolDetails, poolAddress, isWeb3Enabled, assetsMap }) => {
 				</div> */}
 			</div>
 			<div className="buttons-section">
-				<div className="button">Invest</div>
-				<div className="button">Explore</div>
+				<button className="button">Invest</button>
+				<button className="button">Explore</button>
 			</div>
 		</div>
 	);

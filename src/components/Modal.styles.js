@@ -18,7 +18,7 @@ export const Modal = styled.div`
 	background: ${(props) => props.theme.colors.darkbackground};
 
 	min-width: 50ch;
-	height: 60vh;
+	height: ${(props) => (props.height === "auto" ? "auto" : "60vh")};
 
 	padding: 2rem 2rem;
 

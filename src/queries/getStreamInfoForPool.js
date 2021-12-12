@@ -4,6 +4,8 @@ const GET_STREAM_INFO_FOR_POOL = gql`
 	query Streams($where: Stream_filter) {
 		streams(where: $where) {
 			currentFlowRate
+			streamedUntilUpdatedAt
+			updatedAtTimestamp
 		}
 	}
 `;

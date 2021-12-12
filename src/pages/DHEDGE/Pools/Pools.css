@@ -28,6 +28,13 @@ body {
 	margin-bottom: 2rem;
 }
 
+.title-section img {
+	border: 2px solid #ffffff;
+	border-radius: 100px;
+	width: 61px;
+	height: 61px;
+}
+
 .card-profile {
 	height: 2.8rem;
 	border-radius: 100px;
@@ -100,4 +107,7 @@ body {
 	font-weight: bold;
 	border-radius: 30px;
 	padding: 0.4rem 1rem;
+	cursor: pointer;
+	border: none;
+	outline: none;
 }

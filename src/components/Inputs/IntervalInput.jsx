@@ -10,7 +10,7 @@ const IntervalInput = ({ wasSubmitted, fieldName }) => {
 
 	return (
 		<Field key={"interval"}>
-			<label htmlFor={`interval-input`}>{fieldName}</label>
+			<label htmlFor={`interval`}>{fieldName}</label>
 
 			<InputContainer>
 				<input
@@ -25,7 +25,7 @@ const IntervalInput = ({ wasSubmitted, fieldName }) => {
 				/>
 				<input
 					hidden
-					name={`interval-type-input`}
+					name={`interval-type`}
 					value={intervalType}
 					readOnly
 					type="text"
@@ -50,7 +50,7 @@ const IntervalInput = ({ wasSubmitted, fieldName }) => {
 function getFieldError(value) {
 	if (!value) return "field is required";
 }
-const Dropdown = ({ value, handleChange, setIntervalType }) => {
+const Dropdown = ({ value, setIntervalType }) => {
 	return (
 		<select value={value} onChange={(e) => setIntervalType(e.target.value)}>
 			<option value="months">Months</option>

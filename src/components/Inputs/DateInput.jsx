@@ -9,7 +9,7 @@ const DateInput = ({ wasSubmitted, fieldName }) => {
 
 	return (
 		<Field key={"till-date"}>
-			<label htmlFor={`till-date-input`}>{fieldName}</label>
+			<label htmlFor={`till-date`}>{fieldName}</label>
 
 			<InputContainer>
 				<input
@@ -34,6 +34,8 @@ const DateInput = ({ wasSubmitted, fieldName }) => {
 
 function getFieldError(value) {
 	if (!value) return "field is required";
+	if (new Date(value).getTime() <= Date.now())
+		return "date cannot be in the past";
 }
 
 export default DateInput;

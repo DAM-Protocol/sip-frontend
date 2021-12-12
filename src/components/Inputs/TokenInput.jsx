@@ -63,7 +63,7 @@ const TokenInput = ({
 				/>
 				<input
 					hidden
-					name={`${name}-address-input`}
+					name={`${name}-address`}
 					value={value ? (value?.id ? value.id : value.address) : ""}
 					readOnly
 					type="text"
