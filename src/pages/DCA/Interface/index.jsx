@@ -145,30 +145,21 @@ const DCAInterface = () => {
 
 					const allowance = await Moralis.executeFunction(allowanceOptions);
 
-					console.log(allowance);
 					try {
 						if (!allowance) {
 							const approvalOptions = {
 								contractAddress: fieldValues["Sell-address"],
 								functionName: "approve",
 								abi: erc20Abi,
-								chain:"polygon",
 								params: {
 									spender: DCA_CONTRACT_ADDRESS,
-									amount: Moralis.Units.Token("1000000000", "18"),
+									amount: Moralis.Units.Token("10000000000", "18"),
 								},
 							};
 
-							// await getApprovalFromUser({
-							// 	abi: erc20Abi,
-							// 	contractAddress: fieldValues["Sell-address"],
-							// 	functionName: "approve",
-							// 	params: {
-							// 		spender: DCA_CONTRACT_ADDRESS,
-							// 		amount: Moralis.Units.Token("1000000000", "18"),
-							// 	},
-							// });
-							const approvalData = await Moralis.executeFunction(approvalOptions);
+							const approvalData = await Moralis.executeFunction(
+								approvalOptions
+							);
 							console.log(approvalData);
 							if (!approvalData) {
 								window.alert("Approval unsuccesful");
