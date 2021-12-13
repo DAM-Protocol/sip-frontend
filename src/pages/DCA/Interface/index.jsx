@@ -119,20 +119,6 @@ const DCAInterface = () => {
 						(delay * 1000)
 				);
 				if (intervals > 0) {
-					const options = {
-						contractAddress: DCA_CONTRACT_ADDRESS,
-						abi: dcaAbi,
-						functionName: "newTask",
-						params: {
-							value: intervals * Moralis.Units.ETH(INTERVAL_FEE),
-							_from: fieldValues["Buy-address"],
-							_to: fieldValues["Sell-address"],
-							_amount: sellAmount,
-							_delay: delay,
-							_intervals: intervals,
-						},
-					};
-
 					const allowanceOptions = {
 						contractAddress: fieldValues["Sell-address"],
 						functionName: "allowance",
@@ -145,36 +131,43 @@ const DCAInterface = () => {
 
 					const allowance = await Moralis.executeFunction(allowanceOptions);
 
-					try {
-						if (!allowance) {
-							const approvalOptions = {
-								contractAddress: fieldValues["Sell-address"],
-								functionName: "approve",
-								abi: erc20Abi,
-								params: {
-									spender: DCA_CONTRACT_ADDRESS,
-									amount: Moralis.Units.Token("10000000000", "18"),
-								},
-							};
+					if (!Number(allowance)) {
+						const approvalOptions = {
+							contractAddress: fieldValues["Sell-address"],
+							functionName: "approve",
+							abi: erc20Abi,
+							params: {
+								spender: DCA_CONTRACT_ADDRESS,
+								amount: Moralis.Units.Token("10000000000", "18"),
+							},
+						};
 
-							const approvalData = await Moralis.executeFunction(
-								approvalOptions
-							);
-							console.log(approvalData);
-							if (!approvalData) {
-								window.alert("Approval unsuccesful");
-								return;
-							}
+						const approvalData = await Moralis.executeFunction(approvalOptions);
 
-							setModalData({ creatingNewDcaTask: true });
-							const recepit = await Moralis.executeFunction(options);
-							setModalData({ newTaskData: recepit, creatingNewDcaTask: false });
-						} else {
-							setModalData({ creatingNewDcaTask: true });
-
-							const recepit = await Moralis.executeFunction(options);
-							setModalData({ newTaskData: recepit, creatingNewDcaTask: false });
+						if (!approvalData) {
+							window.alert("Approval unsuccesful");
+							return;
 						}
+					}
+
+					try {
+						const options = {
+							contractAddress: DCA_CONTRACT_ADDRESS,
+							abi: dcaAbi,
+							functionName: "newTask",
+							params: {
+								value: intervals * Moralis.Units.ETH(INTERVAL_FEE),
+								_from: fieldValues["Buy-address"],
+								_to: fieldValues["Sell-address"],
+								_amount: sellAmount,
+								_delay: delay,
+								_intervals: intervals,
+							},
+						};
+						setModalData({ creatingNewDcaTask: true });
+
+						const recepit = await Moralis.executeFunction(options);
+						setModalData({ newTaskData: recepit, creatingNewDcaTask: false });
 					} catch (e) {
 						console.log(e);
 						setModalData({
