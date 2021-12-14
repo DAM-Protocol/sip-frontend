@@ -1,5 +1,5 @@
 export const dHedgeContractMap = {
-	"0xd53aecafb10a518f9df9da1a87d650c02380e02b": {
+	"0xc05b38dd7d1bc0e65b2ee5df19ac4296b382cb10": {
 		name: "dHEDGE Stablecoin Yield",
 		poolLogic: "0xbae28251b2a4e621aa7e20538c06dee010bc06de",
 		image:
