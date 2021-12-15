@@ -30,7 +30,7 @@ const PoolRow = ({
 	setModalData,
 	editStream,
 	stopStream,
-	poolDetails: { name },
+	poolDetails: { name, poolLogic },
 }) => {
 	const { data } = useSfSubgraphQuery(GET_POOL_STREAMS_DATA, {
 		variables: { where: { sender: userAddress, receiver: poolAddress } },
@@ -84,8 +84,15 @@ const PoolRow = ({
 					<ContentText>{index + 1}</ContentText>
 				</Number>
 				<PoolName>
-					<ContentText> {name}</ContentText>
-					<BiLinkIcon />
+					<a
+						href={`https://app.dhedge.org/pool/${poolLogic}`}
+						target="_blank"
+						rel="noreferrer">
+						<ContentText>
+							{" "}
+							{name} <BiLinkIcon />
+						</ContentText>
+					</a>
 				</PoolName>
 				<Withdrawable>
 					<ContentText>

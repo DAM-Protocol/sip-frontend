@@ -40,18 +40,15 @@ const Navbar = () => {
 				</div>
 			</Link>
 			<div className="links">
-				<Link className="link" to="/about">
-					About
-				</Link>
-				<Link className="link" to="/docs">
-					Docs
-				</Link>
 				<Link className="link" to="/dhedge">
 					dHEDGE
 				</Link>
 				<Link className="link" to="/dca">
 					DCA
 				</Link>
+				<a href="https://github.com/" target="_blank" rel="noreferrer">
+					GitHub
+				</a>
 			</div>
 			<Button
 				id="chain"
