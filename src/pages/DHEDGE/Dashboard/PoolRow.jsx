@@ -4,6 +4,7 @@ import {
 	Actions,
 	BiLinkIcon,
 	ContentText,
+	CustomInput,
 	DashboardExtraOptionsHeader,
 	DashboardRow,
 	DashboardRowWrapper,
@@ -32,6 +33,8 @@ const PoolRow = ({
 	stopStream,
 	poolDetails: { name, poolLogic },
 }) => {
+	const [isWithdrawing, setIsWithdrawing] = useState(false);
+
 	const { data } = useSfSubgraphQuery(GET_POOL_STREAMS_DATA, {
 		variables: { where: { sender: userAddress, receiver: poolAddress } },
 	});
@@ -76,8 +79,8 @@ const PoolRow = ({
 
 	return (
 		<DashboardRowWrapper>
-			<DashboardRow onClick={() => setShowExtraOptions(!showExtraOptions)}>
-				<Icon>
+			<DashboardRow>
+				<Icon onClick={() => setShowExtraOptions(!showExtraOptions)}>
 					<MdKeyboardArrowDown />
 				</Icon>
 				<Number>
@@ -101,7 +104,19 @@ const PoolRow = ({
 					<Tag>LPTs</Tag>
 				</Withdrawable>
 				<Actions>
-					<WithdrawButton>Withdraw LPTs</WithdrawButton>
+					{isWithdrawing ? (
+						<>
+							<CustomInput type="text" placeholder="amount" />
+							<WithdrawButton>submit</WithdrawButton>
+							<WithdrawButton onClick={() => setIsWithdrawing(false)}>
+								back
+							</WithdrawButton>
+						</>
+					) : (
+						<WithdrawButton onClick={() => setIsWithdrawing(true)}>
+							Withdraw LPTs
+						</WithdrawButton>
+					)}
 				</Actions>
 			</DashboardRow>
 

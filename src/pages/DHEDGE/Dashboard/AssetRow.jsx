@@ -3,6 +3,7 @@ import { BiExit } from "react-icons/bi";
 import {
 	Actions,
 	ContentText,
+	CustomInput,
 	DashboardExtraOptionsRow,
 	Icon,
 	Number,
@@ -30,6 +31,7 @@ const AssetRow = ({
 	editStream,
 	stopStream,
 }) => {
+	const [isEditing, setIsEditing] = useState(false);
 	const { Moralis, isWeb3Enabled } = useMoralis();
 	const {
 		data: withdrawUninvestedSingleData,
@@ -116,12 +118,25 @@ const AssetRow = ({
 			</Withdrawable>
 			<Actions>
 				<StreamOptions>
-					<WithdrawButton onClick={() => setIsEditStreamModalOpen(true)}>
-						Edit
-					</WithdrawButton>
-					<WithdrawButton onClick={() => stopStream(stream.token, poolAddress)}>
-						Stop
-					</WithdrawButton>
+					{isEditing ? (
+						<>
+							<CustomInput type="text" placeholder="amount" />
+							<WithdrawButton>submit</WithdrawButton>
+							<WithdrawButton onClick={() => setIsEditing(false)}>
+								back
+							</WithdrawButton>
+						</>
+					) : (
+						<>
+							<WithdrawButton onClick={() => setIsEditing(true)}>
+								Edit
+							</WithdrawButton>
+							<WithdrawButton
+								onClick={() => stopStream(stream.token, poolAddress)}>
+								Stop
+							</WithdrawButton>
+						</>
+					)}
 				</StreamOptions>
 			</Actions>
 		</DashboardExtraOptionsRow>

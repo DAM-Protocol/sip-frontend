@@ -26,7 +26,9 @@ export const HeaderText = styled.p`
 	line-height: 25px;
 `;
 
-export const Icon = styled.div``;
+export const Icon = styled.div`
+	cursor: pointer;
+`;
 export const Number = styled.div``;
 export const PoolName = styled.div`
 	grid-column: 3 / 5;
@@ -134,6 +136,7 @@ export const WithdrawButton = styled.button`
 	cursor: pointer;
 	outline: none;
 	border: none;
+	z-index: 11;
 `;
 
 export const Tag = styled.span`
@@ -142,4 +145,11 @@ export const Tag = styled.span`
 	padding: 2px 8px;
 	font-size: 12px;
 	line-height: 15px;
+`;
+
+export const CustomInput = styled.input`
+	border: none;
+	outline: none;
+	padding: 10px;
+	border-radius: 15px;
 `;
