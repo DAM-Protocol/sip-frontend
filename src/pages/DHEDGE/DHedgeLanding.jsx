@@ -25,7 +25,7 @@ const DHedgeLanding = () => {
 						<Text>
 							Create Super Streams to dHEDGE Pools and relax as the yields grow
 						</Text>
-						<Button onClick={() => navigate("/dca/pools")}>Invest</Button>
+						<Button onClick={() => navigate("interface/0xC05B38Dd7D1bc0E65b2EE5dF19AC4296B382Cb10")}>Invest</Button>
 					</Card>
 					<Card>
 						<Heading>Dashboard</Heading>

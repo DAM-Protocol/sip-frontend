@@ -35,14 +35,7 @@ const Home = () => {
 					<Text>
 						Create Streams to dHEDGE Pools and relax as the yields grow
 					</Text>
-					<Button
-						onClick={() =>
-							navigate(
-								"/dhedge/interface/0xD53aecafB10A518F9df9dA1a87D650c02380e02b"
-							)
-						}>
-						Start Investing
-					</Button>
+					<Button onClick={() => navigate("/dhedge")}>Start Investing</Button>
 				</Card>
 			</CardsList>
 		</CardWrapper>
