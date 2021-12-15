@@ -10,7 +10,7 @@ const DcaRoutes = () => {
 		<Routes>
 			<Route
 				exact
-				path="interface"
+				path="*"
 				element={
 					<Suspense fallback={<Loader />}>
 						<DcaInterface />

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { BsChevronDoubleDown } from "react-icons/bs";
 import Heading from "../../../components/Heading/Heading";
 import {
@@ -20,7 +20,30 @@ import BigNumber from "bignumber.js";
 import SuperfluidSDK from "@superfluid-finance/js-sdk";
 import PoolRow from "./PoolRow";
 
+import {
+	Modal,
+	ModalContainer,
+	ModalTitle,
+} from "../../../components/Modal.styles";
+
 const DhedgeDashboard = () => {
+	// Modal
+	const [{ modalData, modalErrorData, modalLoadingData }, setModalData] =
+		useState({});
+	const modalRef = useRef();
+	const handleClickOutside = useCallback((e) => {
+		if (!modalRef.current?.contains(e.target)) setModalData(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [handleClickOutside]);
+	// Modal End
+
 	const [superFluid, setSuperFluid] = useState();
 	const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis();
 	const { chainId } = useChain();
@@ -69,6 +92,27 @@ const DhedgeDashboard = () => {
 	const { user } = useMoralis();
 	return (
 		<div>
+			{(modalData || modalLoadingData) && (
+				<ModalContainer className="modal">
+					<Modal className="" height="auto" ref={modalRef}>
+						{modalLoadingData && (
+							<ModalTitle>{modalLoadingData?.title}</ModalTitle>
+						)}
+						{modalData && <ModalTitle>{modalData?.title}</ModalTitle>}
+						{/* {modalData && (
+							<>
+								
+							</>
+						)} */}
+						{modalErrorData && (
+							<>
+								<ModalTitle>{modalErrorData?.message}</ModalTitle>
+							</>
+						)}
+					</Modal>
+				</ModalContainer>
+			)}
+
 			<Heading>dHEDGE Dashboard</Heading>
 			<DashbaordWrapper>
 				<DashboardHeader>
@@ -98,28 +142,10 @@ const DhedgeDashboard = () => {
 									poolAddress={key}
 									key={index}
 									index={index}
+									setModalData={setModalData}
 								/>
 							);
 						})}
-
-						{/* <DashboardRow>
-							<Icon>
-								<MdKeyboardArrowDown />
-							</Icon>
-							<Number>
-								<ContentText>1</ContentText>
-							</Number>
-							<PoolName>
-								<ContentText> Convex Strategies</ContentText>
-								<BiLinkIcon />
-							</PoolName>
-							<Withdrawable>
-								<ContentText>300</ContentText> <Tag>LPs</Tag>
-							</Withdrawable>
-							<Actions>
-								<WithdrawButton>Withdraw Lp</WithdrawButton>
-							</Actions>
-						</DashboardRow> */}
 					</DashboardRowWrapper>
 				</DashboardContent>
 			</DashbaordWrapper>

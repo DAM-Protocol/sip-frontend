@@ -19,21 +19,9 @@ const AssetRow = ({
 	userAddress,
 	poolAddress,
 	stream,
-	editStream,
-	stopStream,
+	openEditStreamModal,
+	openStopStreamModal,
 }) => {
-	const {
-		data: withdrawUninvestedAllData,
-		error: withdrawUninvestedAllError,
-		fetch: withdrawUninvestedAll,
-		isFetching: isWithdrawingUninvestedAll,
-	} = useWeb3ExecuteFunction({
-		abi: dHedgeSipAbi,
-		contractAddress: poolAddress,
-		functionName: "withdrawUninvestedAll",
-		params: {},
-	});
-
 	const { Moralis, isWeb3Enabled } = useMoralis();
 	const {
 		data: withdrawUninvestedSingleData,
@@ -92,8 +80,8 @@ const AssetRow = ({
 			</Withdrawable>
 			<Actions>
 				<StreamOptions>
-					<WithdrawButton onClick={editStream}>Edit</WithdrawButton>
-					<WithdrawButton onClick={stopStream}>Stop</WithdrawButton>
+					<WithdrawButton onClick={openEditStreamModal}>Edit</WithdrawButton>
+					<WithdrawButton onClick={openStopStreamModal}>Stop</WithdrawButton>
 				</StreamOptions>
 			</Actions>
 		</DashboardExtraOptionsRow>

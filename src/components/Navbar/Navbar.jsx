@@ -34,8 +34,8 @@ const Navbar = () => {
 		<NavigationBar>
 			<Link to="/">
 				<div className="logo">
-					any
-					<span className="yellow">Stream</span>
+					d-
+					<span className="yellow">SIP</span>
 					<span className="red">.</span>
 				</div>
 			</Link>
@@ -47,7 +47,7 @@ const Navbar = () => {
 					Docs
 				</Link>
 				<Link className="link" to="/dhedge">
-					dHEDHE
+					dHEDGE
 				</Link>
 				<Link className="link" to="/dca">
 					DCA

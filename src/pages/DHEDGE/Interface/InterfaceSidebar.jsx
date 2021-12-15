@@ -3,7 +3,7 @@ import AssetTag from "../../../components/AssetTag.styles";
 import { LinkButton } from "../../../components/Button/Button.styles";
 import { Blockie, Sidebar } from "./Interface.styles";
 
-const InterfaceSidebar = ({ data, tokenList, seed }) => {
+const InterfaceSidebar = ({ data, tokenList, seed, poolAddress }) => {
 	const [color, bgColor, spotColor] = useMemo(
 		() =>
 			data
@@ -46,7 +46,7 @@ const InterfaceSidebar = ({ data, tokenList, seed }) => {
 				</div>
 				<LinkButton
 					stroke
-					href={`https://app.dhedge.org/pool/0xc28b6d9cb7bda6d0db62f8ab5714c8edafe22194`}
+					href={`https://app.dhedge.org/pool/${poolAddress}`}
 					target="_blank"
 					rel="noopener noreferrer">
 					Explore

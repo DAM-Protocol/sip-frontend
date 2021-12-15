@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import SuperfluidSDK from "@superfluid-finance/js-sdk";
 import BigNumber from "bignumber.js";
 import { useParams } from "react-router-dom";
@@ -18,8 +18,29 @@ import RateInput from "../../../components/Inputs/RateInput";
 import InterfaceSidebar from "./InterfaceSidebar";
 import GET_POOL_INFO from "../../../queries/getPoolInfo";
 import GET_SUPER_TOKEN_LIST from "../../../queries/getSuperTokenList";
+import {
+	Modal,
+	ModalContainer,
+	ModalTitle,
+} from "../../../components/Modal.styles";
 
 const DhedgeInterface = () => {
+	// Modal
+	const [{ newStreamData, newStreamError, creatingNewStream }, setModalData] =
+		useState({});
+	const modalRef = useRef();
+	const handleClickOutside = useCallback((e) => {
+		if (!modalRef.current?.contains(e.target)) setModalData(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [handleClickOutside]);
+
 	// dHEDGE SIP Contract Address
 	const { contractAddress } = useParams();
 	// dHEDGE Pool Address
@@ -131,16 +152,23 @@ const DhedgeInterface = () => {
 				const seconds = new BigNumber(2592000);
 
 				const ratePerSecond = amountPerMonth.dividedBy(seconds);
-				console.log(ratePerSecond.toFixed(0).toString());
 
 				// Initiate Flow of super tokens
 				const sfUser = superFluid.user({
 					address: web3.currentProvider.selectedAddress,
 					token: fieldValues["Token-address"],
 				});
-				await sfUser.flow({
+				const flow = await sfUser.flow({
 					recipient: contractAddress,
 					flowRate: ratePerSecond.toFixed(0).toString(),
+				});
+				setModalData({
+					newStreamData: {
+						inPool: poolAddress,
+						token: fieldValues["Token-input"],
+						ratePerSecond: ratePerSecond.toFixed(0).toString(),
+					},
+					creatingNewStream: false,
 				});
 			}
 
@@ -150,6 +178,34 @@ const DhedgeInterface = () => {
 
 	return (
 		<div>
+			{(creatingNewStream || newStreamData) && (
+				<ModalContainer className="modal">
+					<Modal className="" height="auto" ref={modalRef}>
+						{creatingNewStream && (
+							<ModalTitle>Starting Stream. Please Wait.</ModalTitle>
+						)}
+						{newStreamData && <ModalTitle>Started New Stream!</ModalTitle>}
+						{newStreamData && (
+							<>
+								Started a stream with the following details:
+								<br />
+								Token : {newStreamData.token}
+								<br />
+								Rate/s : {newStreamData.ratePerSecond}
+								<br />
+								In the dHedge Pool : {newStreamData.inPool}
+							</>
+						)}
+						{newStreamError && (
+							<>
+								<ModalTitle>
+									An error occured while creating the task
+								</ModalTitle>
+							</>
+						)}
+					</Modal>
+				</ModalContainer>
+			)}
 			<h1>
 				Create <span className="gold-highlight">dHEDGE</span> Stream
 			</h1>
@@ -159,6 +215,7 @@ const DhedgeInterface = () => {
 					data={dHedgePoolData?.fund}
 					tokenList={tokenList}
 					seed={contractAddress}
+					poolAddress={poolAddress}
 				/>
 				<Form noValidate onSubmit={handleSubmit}>
 					<TokenInput

@@ -1,9 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "../components/Loader/Loader";
+import DHedgeLanding from "../pages/DHEDGE/DHedgeLanding";
 
 const DhedgeInterface = lazy(() => import("../pages/DHEDGE/Interface/"));
-const DhedgeDashboard = lazy(() => import("../pages/DHEDGE/Dashboard/Dashboard"));
+const DhedgeDashboard = lazy(() =>
+	import("../pages/DHEDGE/Dashboard/Dashboard")
+);
 const Pool = lazy(() => import("../pages/DHEDGE/Pool"));
 const Pools = lazy(() => import("../pages/DHEDGE/Pools/Pools"));
 
@@ -46,7 +49,7 @@ const DhedgeRoutes = () => {
 					</Suspense>
 				}
 			/>
-			<Route path="*" element={"dHEDGE Information & FAQ"} />
+			<Route path="*" element={<DHedgeLanding />} />
 		</Routes>
 	);
 };

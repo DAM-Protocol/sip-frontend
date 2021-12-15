@@ -59,7 +59,6 @@ const DCAInterface = () => {
 	}, [isAuthenticated, isWeb3Enabled]);
 
 	const modalRef = useRef();
-
 	const handleClickOutside = useCallback((e) => {
 		if (!modalRef.current?.contains(e.target)) setModalData(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -21,17 +21,20 @@ import { useWeb3ExecuteFunction } from "react-moralis";
 import { useSfSubgraphQuery } from "../../../hooks/useSfSubgraphQuery";
 import dHedgeSipAbi from "../../../abi/dHedgeSipAbi";
 import AssetRow from "./AssetRow";
+import { useMoralis } from "react-moralis";
 
 const PoolRow = ({
 	index,
-	poolAddress,
+	poolAddress, //dhedge sip pool address
 	userAddress,
+	setModalData,
 	poolDetails: { name },
 }) => {
 	const { data } = useSfSubgraphQuery(GET_POOL_STREAMS_DATA, {
 		variables: { where: { sender: userAddress, receiver: poolAddress } },
 	});
 
+	const { Moralis } = useMoralis();
 	const [showExtraOptions, setShowExtraOptions] = useState(false);
 
 	const {
@@ -47,22 +50,27 @@ const PoolRow = ({
 			_user: userAddress,
 		},
 	});
+	const [withdrawAmount, setWithdrawAmount] = useState(0);
 	const {
-		data: userLockedShareAmount,
-		error: calcUserLockedShareAmountError,
-		fetch: calcUserLockedShareAmount,
-		isFetching: isCalculatingUserLockedShareAmount,
+		data: withdrawLPTsData,
+		error: withdrawLPTsError,
+		fetch: withdrawyLPTs,
+		isFetching: isWithdrawingLPTs,
 	} = useWeb3ExecuteFunction({
 		abi: dHedgeSipAbi,
 		contractAddress: poolAddress,
-		functionName: "calcUserLockedShareAmount",
+		functionName: "dHedgeWithdraw",
+		params: {
+			amount: withdrawAmount,
+		},
 	});
+
 	useEffect(() => {
 		if (userAddress) {
 			fetchWithdrawableBalance();
-			calcUserLockedShareAmount();
+			// calcUserLockedShareAmount();
 		}
-	}, [poolAddress, userAddress]);
+	}, [fetchWithdrawableBalance, poolAddress, userAddress]);
 
 	return (
 		<DashboardRowWrapper>
@@ -78,10 +86,13 @@ const PoolRow = ({
 					<BiLinkIcon />
 				</PoolName>
 				<Withdrawable>
-					<ContentText>{withdrawableBalance}</ContentText> <Tag>LPs</Tag>
+					<ContentText>
+						{Moralis.Units.FromWei(withdrawableBalance || 0)}
+					</ContentText>{" "}
+					<Tag>LPTs</Tag>
 				</Withdrawable>
 				<Actions>
-					<WithdrawButton>Withdraw LPs</WithdrawButton>
+					<WithdrawButton>Withdraw LPTs</WithdrawButton>
 				</Actions>
 			</DashboardRow>
 
@@ -105,51 +116,10 @@ const PoolRow = ({
 
 					<AssetRow
 						userAddress={userAddress}
+						setModalData={setModalData}
 						poolAddress={poolAddress}
 						stream={data?.streams[0]}
 					/>
-
-					{/* <DashboardExtraOptionsRow>
-						<Icon>
-							<Tag>LPs</Tag>
-						</Icon>
-						<Number>
-							<ContentText>100</ContentText>
-						</Number>
-						<PoolName>
-							<ContentText>100</ContentText>
-						</PoolName>
-						<Withdrawable>
-							<ContentText>100</ContentText>
-						</Withdrawable>
-						<Actions>
-							<StreamOptions>
-								<WithdrawButton>Edit</WithdrawButton>
-								<WithdrawButton>Stop</WithdrawButton>
-							</StreamOptions>
-						</Actions>
-					</DashboardExtraOptionsRow>
-
-					<DashboardExtraOptionsRow>
-						<Icon>
-							<Tag>LPs</Tag>
-						</Icon>
-						<Number>
-							<ContentText>100</ContentText>
-						</Number>
-						<PoolName>
-							<ContentText>100</ContentText>
-						</PoolName>
-						<Withdrawable>
-							<ContentText>100</ContentText>
-						</Withdrawable>
-						<Actions>
-							<StreamOptions>
-								<WithdrawButton>Edit</WithdrawButton>
-								<WithdrawButton>Stop</WithdrawButton>
-							</StreamOptions>
-						</Actions>
-					</DashboardExtraOptionsRow> */}
 				</div>
 			)}
 		</DashboardRowWrapper>
