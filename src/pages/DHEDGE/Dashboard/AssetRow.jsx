@@ -58,39 +58,10 @@ const AssetRow = ({
 		calcUserUninvested();
 	}, [stream, userAddress, isWeb3Enabled]);
 
-	// Modal
-	const [isEditStreamModalOpen, setIsEditStreamModalOpen] = useState(false);
-	const modalRef = useRef();
-	const handleClickOutside = useCallback((e) => {
-		if (!modalRef.current?.contains(e.target)) setIsEditStreamModalOpen(false);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-	useEffect(() => {
-		document.addEventListener("click", handleClickOutside);
-
-		return () => {
-			document.removeEventListener("click", handleClickOutside);
-		};
-	}, [handleClickOutside]);
-	// Modal End
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		editStream(e.target.Rate, stream.token, poolAddress);
-	};
+	const [newRate, setNewRate] = useState(0);
 
 	return (
 		<DashboardExtraOptionsRow>
-			{isEditStreamModalOpen && (
-				<ModalContainer className="modal">
-					<Modal className="" ref={modalRef}>
-						<ModalTitle>Edit Stream</ModalTitle>
-						<RateInput fieldName="Rate" />
-						<Button filled onClick={handleSubmit} type="submit">
-							Edit
-						</Button>
-					</Modal>
-				</ModalContainer>
-			)}
 			<Icon>
 				<Tag>{stream?.token.symbol}</Tag>
 			</Icon>
@@ -120,8 +91,18 @@ const AssetRow = ({
 				<StreamOptions>
 					{isEditing ? (
 						<>
-							<CustomInput type="text" placeholder="amount" />
-							<WithdrawButton>submit</WithdrawButton>
+							<CustomInput
+								value={newRate}
+								onChange={(e) => setNewRate(e.target.value)}
+								type="text"
+								placeholder="amount"
+							/>
+							<WithdrawButton
+								onClick={() => {
+									editStream(newRate, stream.token, poolAddress);
+								}}>
+								submit
+							</WithdrawButton>
 							<WithdrawButton onClick={() => setIsEditing(false)}>
 								back
 							</WithdrawButton>

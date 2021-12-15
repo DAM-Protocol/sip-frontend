@@ -106,8 +106,19 @@ const PoolRow = ({
 				<Actions>
 					{isWithdrawing ? (
 						<>
-							<CustomInput type="text" placeholder="amount" />
-							<WithdrawButton>submit</WithdrawButton>
+							<CustomInput
+								value={withdrawAmount}
+								onChange={(e) => setWithdrawAmount(e.target.value)}
+								type="text"
+								placeholder="amount"
+							/>
+							<WithdrawButton
+								onClick={() => {
+									withdrawLPTs();
+									setIsWithdrawing(false);
+								}}>
+								submit
+							</WithdrawButton>
 							<WithdrawButton onClick={() => setIsWithdrawing(false)}>
 								back
 							</WithdrawButton>
