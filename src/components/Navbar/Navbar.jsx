@@ -46,7 +46,7 @@ const Navbar = () => {
 				<Link className="link" to="/dca">
 					DCA
 				</Link>
-				<a href="https://github.com/" target="_blank" rel="noreferrer">
+				<a href="https://github.com/DAM-Protocol" target="_blank" rel="noreferrer">
 					GitHub
 				</a>
 			</div>
