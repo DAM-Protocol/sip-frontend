@@ -28,6 +28,8 @@ const PoolRow = ({
 	poolAddress, //dhedge sip pool address
 	userAddress,
 	setModalData,
+	editStream,
+	stopStream,
 	poolDetails: { name },
 }) => {
 	const { data } = useSfSubgraphQuery(GET_POOL_STREAMS_DATA, {
@@ -54,7 +56,7 @@ const PoolRow = ({
 	const {
 		data: withdrawLPTsData,
 		error: withdrawLPTsError,
-		fetch: withdrawyLPTs,
+		fetch: withdrawLPTs,
 		isFetching: isWithdrawingLPTs,
 	} = useWeb3ExecuteFunction({
 		abi: dHedgeSipAbi,
@@ -119,6 +121,8 @@ const PoolRow = ({
 						setModalData={setModalData}
 						poolAddress={poolAddress}
 						stream={data?.streams[0]}
+						editStream={editStream}
+						stopStream={stopStream}
 					/>
 				</div>
 			)}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { BiExit } from "react-icons/bi";
 import {
 	Actions,
@@ -15,12 +15,20 @@ import {
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 import dHedgeSipAbi from "../../../abi/dHedgeSipAbi";
 
+import {
+	Modal,
+	ModalContainer,
+	ModalTitle,
+} from "../../../components/Modal.styles";
+import Button from "../../../components/Button/Button.styles";
+import RateInput from "../../../components/Inputs/RateInput";
+
 const AssetRow = ({
 	userAddress,
 	poolAddress,
 	stream,
-	openEditStreamModal,
-	openStopStreamModal,
+	editStream,
+	stopStream,
 }) => {
 	const { Moralis, isWeb3Enabled } = useMoralis();
 	const {
@@ -33,26 +41,54 @@ const AssetRow = ({
 		contractAddress: poolAddress,
 		functionName: "withdrawUninvestedSingle",
 	});
-	const {
-		data: unInvestedAmount,
-		error: calcUserUninvestedError,
-		fetch: calcUserUninvested,
-		isFetching: isCalculatingUserUninvested,
-	} = useWeb3ExecuteFunction({
-		abi: dHedgeSipAbi,
-		contractAddress: poolAddress,
-		functionName: "calcUserUninvested",
-		params: {
-			_user: userAddress,
-			_token: stream?.token.underlyingAddress,
-		},
-	});
+	const { data: unInvestedAmount, fetch: calcUserUninvested } =
+		useWeb3ExecuteFunction({
+			abi: dHedgeSipAbi,
+			contractAddress: poolAddress,
+			functionName: "calcUserUninvested",
+			params: {
+				_user: userAddress,
+				_token: stream?.token.underlyingAddress,
+			},
+		});
 
 	useEffect(() => {
 		calcUserUninvested();
 	}, [stream, userAddress, isWeb3Enabled]);
+
+	// Modal
+	const [isEditStreamModalOpen, setIsEditStreamModalOpen] = useState(false);
+	const modalRef = useRef();
+	const handleClickOutside = useCallback((e) => {
+		if (!modalRef.current?.contains(e.target)) setIsEditStreamModalOpen(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [handleClickOutside]);
+	// Modal End
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		editStream(e.target.Rate, stream.token, poolAddress);
+	};
+
 	return (
 		<DashboardExtraOptionsRow>
+			{isEditStreamModalOpen && (
+				<ModalContainer className="modal">
+					<Modal className="" ref={modalRef}>
+						<ModalTitle>Edit Stream</ModalTitle>
+						<RateInput fieldName="Rate" />
+						<Button filled onClick={handleSubmit} type="submit">
+							Edit
+						</Button>
+					</Modal>
+				</ModalContainer>
+			)}
 			<Icon>
 				<Tag>{stream?.token.symbol}</Tag>
 			</Icon>
@@ -80,8 +116,12 @@ const AssetRow = ({
 			</Withdrawable>
 			<Actions>
 				<StreamOptions>
-					<WithdrawButton onClick={openEditStreamModal}>Edit</WithdrawButton>
-					<WithdrawButton onClick={openStopStreamModal}>Stop</WithdrawButton>
+					<WithdrawButton onClick={() => setIsEditStreamModalOpen(true)}>
+						Edit
+					</WithdrawButton>
+					<WithdrawButton onClick={() => stopStream(stream.token, poolAddress)}>
+						Stop
+					</WithdrawButton>
 				</StreamOptions>
 			</Actions>
 		</DashboardExtraOptionsRow>

@@ -67,23 +67,37 @@ const DhedgeDashboard = () => {
 
 	const editStream = useCallback(
 		async (newRate, token, poolAddress) => {
-			const web3 = await Moralis.enableWeb3();
+			if (token) {
+				const web3 = await Moralis.enableWeb3();
 
-			const amountPerMonth = new BigNumber(newRate).multipliedBy(
-				new BigNumber(10).pow(token.decimals)
-			);
+				const amountPerMonth = new BigNumber(newRate).multipliedBy(
+					new BigNumber(10).pow(token.decimals)
+				);
 
-			const seconds = new BigNumber(2592000);
+				const seconds = new BigNumber(2592000);
 
-			const ratePerSecond = amountPerMonth.dividedBy(seconds);
+				const ratePerSecond = amountPerMonth.dividedBy(seconds);
 
-			const sfUser = superFluid.user({
-				address: web3.currentProvider.selectedAddress,
-				token: token.underlyingAddress,
-			});
-			await sfUser.flow({
-				recipient: poolAddress,
-				flowRate: ratePerSecond.toFixed(0).toString(),
+				console.log(ratePerSecond, poolAddress, token);
+				const sfUser = superFluid.user({
+					address: web3.currentProvider.selectedAddress,
+					token: token.id,
+				});
+				await sfUser.flow({
+					recipient: poolAddress,
+					flowRate: ratePerSecond.toFixed(0).toString(),
+				});
+			}
+		},
+		[Moralis, superFluid]
+	);
+	const stopStream = useCallback(
+		async (token, poolAddress) => {
+			await superFluid.cfa.deleteFlow({
+				superToken: token.id,
+				sender: user.get("ethAddress"),
+				receiver: poolAddress,
+				by: user.get("ethAddress"),
 			});
 		},
 		[superFluid]
@@ -143,6 +157,8 @@ const DhedgeDashboard = () => {
 									key={index}
 									index={index}
 									setModalData={setModalData}
+									editStream={editStream}
+									stopStream={stopStream}
 								/>
 							);
 						})}

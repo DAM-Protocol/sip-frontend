@@ -8,6 +8,7 @@ const GET_POOL_STREAMS_DATA = gql`
 				symbol
 				decimals
 				underlyingAddress
+				id
 			}
 			streamedUntilUpdatedAt
 			currentFlowRate
