@@ -95,7 +95,7 @@ const AssetRow = ({
 								value={newRate}
 								onChange={(e) => setNewRate(e.target.value)}
 								type="text"
-								placeholder="amount"
+								placeholder="rate"
 							/>
 							<WithdrawButton
 								onClick={() => {

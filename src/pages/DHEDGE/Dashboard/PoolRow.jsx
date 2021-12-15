@@ -66,7 +66,7 @@ const PoolRow = ({
 		contractAddress: poolAddress,
 		functionName: "dHedgeWithdraw",
 		params: {
-			amount: withdrawAmount,
+			_amount: Moralis.Units.ETH(withdrawAmount || 0),
 		},
 	});
 
@@ -115,7 +115,7 @@ const PoolRow = ({
 							<WithdrawButton
 								onClick={() => {
 									withdrawLPTs();
-									setIsWithdrawing(false);
+									// setIsWithdrawing(false);
 								}}>
 								submit
 							</WithdrawButton>

@@ -152,4 +152,5 @@ export const CustomInput = styled.input`
 	outline: none;
 	padding: 10px;
 	border-radius: 15px;
+	width: 80px;
 `;
