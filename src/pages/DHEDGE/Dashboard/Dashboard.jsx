@@ -93,12 +93,13 @@ const DhedgeDashboard = () => {
 	);
 	const stopStream = useCallback(
 		async (token, poolAddress) => {
-			await superFluid.cfa.deleteFlow({
-				superToken: token.id,
-				sender: user.get("ethAddress"),
-				receiver: poolAddress,
-				by: user.get("ethAddress"),
-			});
+			if (superFluid)
+				await superFluid.cfa.deleteFlow({
+					superToken: token.id,
+					sender: user.get("ethAddress"),
+					receiver: poolAddress,
+					by: user.get("ethAddress"),
+				});
 		},
 		[superFluid]
 	);
